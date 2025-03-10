@@ -1,0 +1,839 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cason Mo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、什么是WebSocket？WebSocket是HTML5开始提供的一种在单个TCP连接上进行全双工通讯的协议，能更好的节省服务器资源和带宽，并且能够更实时地进行通讯。 WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据，在WebSocket API中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。–来源自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Springboot集成WebSocket实现消息推送 记录">
+<meta property="og:url" content="https://cason.work/2022/06/07/Springboot%E9%9B%86%E6%88%90WebSocket%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81-%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="Blog|CasonMo-Java后端知识学习经验分享">
+<meta property="og:description" content="一、什么是WebSocket？WebSocket是HTML5开始提供的一种在单个TCP连接上进行全双工通讯的协议，能更好的节省服务器资源和带宽，并且能够更实时地进行通讯。 WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据，在WebSocket API中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。–来源自">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202206071031666.jpeg">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202206071032239.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202206071032020.png">
+<meta property="article:published_time" content="2022-06-07T02:30:59.000Z">
+<meta property="article:modified_time" content="2025-02-07T02:09:54.671Z">
+<meta property="article:author" content="Cason Mo">
+<meta property="article:tag" content="WebSocket">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202206071031666.jpeg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+    <meta name="google-site-verification" content="f-Zx1s0QlBYDQAEQEaqHl-vpTbRmq-FDQ8IRLOTat6c" />
+  
+  <title>Springboot集成WebSocket实现消息推送 记录 - Blog|CasonMo-Java后端知识学习经验分享</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"cason.work","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mrkAghx9eMrolWwrYAdkz1JY-MdYXbMMI","app_key":"ySRiT9dGUKi9GsTq8uKjf4kc","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Blog|CasonMo-Java后端知识学习经验分享" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cason Mo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://tool.cason.work/" target="_self">
+                <i class="iconfont icon-briefcase"></i>
+                <span>开发工具集合</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span></span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Springboot集成WebSocket实现消息推送 记录"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-07 10:30" pubdate>
+          2022年6月7日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Springboot集成WebSocket实现消息推送 记录</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="一、什么是WebSocket？"><a href="#一、什么是WebSocket？" class="headerlink" title="一、什么是WebSocket？"></a>一、什么是WebSocket？</h3><p>WebSocket是HTML5开始提供的一种在单个TCP连接上进行全双工通讯的协议，能更好的节省服务器资源和带宽，并且能够更实时地进行通讯。</p>
+<p>WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据，在WebSocket API中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。–来源自<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904004762222606?utm_source=gold_browser_extension">https://juejin.cn/post/6844904004762222606?utm_source=gold_browser_extension</a></p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202206071031666.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<center><small>(图源自网络)</small></center>
+
+<h3 id="二、与springboot集成"><a href="#二、与springboot集成" class="headerlink" title="二、与springboot集成"></a>二、与springboot集成</h3><h4 id="引入spring-boot-starter-websocket依赖"><a href="#引入spring-boot-starter-websocket依赖" class="headerlink" title="引入spring-boot-starter-websocket依赖"></a>引入spring-boot-starter-websocket依赖</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"> <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-websocket<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;springboot.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="新建WebSocketHandler"><a href="#新建WebSocketHandler" class="headerlink" title="新建WebSocketHandler"></a>新建WebSocketHandler</h4><p>MercuryWebsocketHandler.class 对连接建立处理，消息处理，错误处理，以及连接关闭处理等等</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MercuryWebSocketHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">WebSocketHandler</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">afterConnectionEstablished</span><span class="hljs-params">(WebSocketSession webSocketSession)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">wsId</span> <span class="hljs-operator">=</span> WsSessionManager.getWsId(webSocketSession.getUri().getPath());<br>        <span class="hljs-keyword">if</span> (wsId != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-comment">// 用户连接成功，放入在线用户缓存</span><br>            WsSessionManager.add(wsId, webSocketSession);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;用户登录已经失效!&quot;</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handleMessage</span><span class="hljs-params">(WebSocketSession webSocketSession, WebSocketMessage&lt;?&gt; webSocketMessage)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">payload</span> <span class="hljs-operator">=</span> webSocketMessage.getPayload().toString();<br>        <span class="hljs-type">String</span> <span class="hljs-variable">wsId</span> <span class="hljs-operator">=</span> WsSessionManager.getWsId(webSocketSession.getUri().getPath());<br>        System.out.println(<span class="hljs-string">&quot;server 接收到 &quot;</span> + wsId + <span class="hljs-string">&quot; 发送的 &quot;</span> + payload);<br><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handleTransportError</span><span class="hljs-params">(WebSocketSession webSocketSession, Throwable throwable)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        log.error(<span class="hljs-string">&quot;发生错误&quot;</span>, throwable);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">afterConnectionClosed</span><span class="hljs-params">(WebSocketSession webSocketSession, CloseStatus closeStatus)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">wsId</span> <span class="hljs-operator">=</span> WsSessionManager.getWsId(webSocketSession.getUri().getPath());<br>        <span class="hljs-keyword">if</span> (wsId != <span class="hljs-literal">null</span>) &#123;<br>            WsSessionManager.removeAndClose(wsId);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">supportsPartialMessages</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="实现WebSocketConfigurer-来对握手前后进行逻辑处理"><a href="#实现WebSocketConfigurer-来对握手前后进行逻辑处理" class="headerlink" title="实现WebSocketConfigurer 来对握手前后进行逻辑处理"></a>实现WebSocketConfigurer 来对握手前后进行逻辑处理</h4><p>因为我需要对websocket 握手前进行校验，所以创建WebSocketHandshakeInterceptor.class</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WebSocketHandshakeInterceptor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpSessionHandshakeInterceptor</span> &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">beforeHandshake</span><span class="hljs-params">(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler webSocketHandler, Map&lt;String, Object&gt; attributes)</span><br>            <span class="hljs-keyword">throws</span> Exception &#123;<br>       	<span class="hljs-comment">/**省略校验逻辑 校验不通过 return false**/</span><br>      	<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">super</span>.beforeHandshake(request, response, webSocketHandler, attributes);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">afterHandshake</span><span class="hljs-params">(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception e)</span> &#123;<br>        <span class="hljs-built_in">super</span>.afterHandshake(request, response, wsHandler, e);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="实现WebSocketConfigurer"><a href="#实现WebSocketConfigurer" class="headerlink" title="实现WebSocketConfigurer"></a>实现WebSocketConfigurer</h4><p>新建websocket配置类，添加拦截地址以及相应的websocket消息处理器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableWebSocket</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WebSocketServerConfig</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">WebSocketConfigurer</span> &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">registerWebSocketHandlers</span><span class="hljs-params">(WebSocketHandlerRegistry registry)</span> &#123;<br>        <span class="hljs-comment">// 添加拦截地址以及相应的websocket消息处理器</span><br>        <span class="hljs-type">WebSocketHandlerRegistration</span> <span class="hljs-variable">registration</span> <span class="hljs-operator">=</span> registry<br>                .addHandler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">MercuryWebSocketHandler</span>(), <span class="hljs-string">&quot;/api/websocket/**&quot;</span>)<br>                .setAllowedOrigins(<span class="hljs-string">&quot;*&quot;</span>);<br>        <span class="hljs-comment">// 添加拦截器</span><br>        registration.addInterceptors(<span class="hljs-keyword">new</span> <span class="hljs-title class_">WebSocketHandshakeInterceptor</span>());<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="创建WsSessionManager存储websocket-session"><a href="#创建WsSessionManager存储websocket-session" class="headerlink" title="创建WsSessionManager存储websocket session"></a>创建WsSessionManager存储websocket session</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WsSessionManager</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ConcurrentHashMap&lt;String, WebSocketSession&gt; SESSION_POOL = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcurrentHashMap</span>&lt;&gt;();<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">AtomicInteger</span> <span class="hljs-variable">onlineCount</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AtomicInteger</span>(<span class="hljs-number">0</span>);<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 添加 session</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> wsId</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">add</span><span class="hljs-params">(String wsId, WebSocketSession session)</span> &#123;<br>        addOnlineCount();<br>        SESSION_POOL.put(wsId, session);<br>        log.info(<span class="hljs-string">&quot;有新窗口开始监听:&quot;</span> + wsId + <span class="hljs-string">&quot;,当前在线人数为:&quot;</span> + getOnlineCount());<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 删除 session,会返回删除的 session</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> wsId</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> WebSocketSession <span class="hljs-title function_">remove</span><span class="hljs-params">(String wsId)</span> &#123;<br>        <span class="hljs-type">WebSocketSession</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span> SESSION_POOL.remove(wsId);<br>        subOnlineCount();<br>        log.info(<span class="hljs-string">&quot;释放的wsId为：&quot;</span> + wsId);<br>        log.info(<span class="hljs-string">&quot;有一连接关闭！当前在线人数为&quot;</span> + getOnlineCount());<br>        <span class="hljs-keyword">return</span> session;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 删除并同步关闭连接</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> wsId</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">removeAndClose</span><span class="hljs-params">(String wsId)</span> &#123;<br>        <span class="hljs-type">WebSocketSession</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span> remove(wsId);<br>        <span class="hljs-keyword">if</span> (session != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-comment">// 关闭连接</span><br>                session.close();<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                log.error(e.getMessage(),e);<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获得 session</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> key</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> WebSocketSession <span class="hljs-title function_">get</span><span class="hljs-params">(String wsId)</span> &#123;<br>        <span class="hljs-comment">// 获得 session</span><br>        <span class="hljs-keyword">return</span> SESSION_POOL.get(wsId);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 实现服务器主动推送</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sendMessage</span><span class="hljs-params">(String wsId,String message)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        get(wsId).sendMessage(<span class="hljs-keyword">new</span> <span class="hljs-title class_">TextMessage</span>(message));<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 非多机部署请注释此方法</span><br><span class="hljs-comment">     * 实现服务器主动推送 用于解决分布式websocket session不共享的问题</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sendMessageBroadcasting</span><span class="hljs-params">(String wsId,String message)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">RocketMQProducer</span> <span class="hljs-variable">producer</span> <span class="hljs-operator">=</span> SpringContextUtils.getBean(RocketMQProducer.class);<br>        <span class="hljs-type">WebSocketMessageSendDto</span> <span class="hljs-variable">webSocketMessageSendDto</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebSocketMessageSendDto</span>();<br>        webSocketMessageSendDto.setWsId(wsId);<br>        webSocketMessageSendDto.setMessage(message);<br>        producer.sendObject(RocketMqConstant.Topic.MERCURY_WEB_SOCKET_MESSAGE_SEND,webSocketMessageSendDto);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getOnlineCount</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> WsSessionManager.onlineCount.get();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addOnlineCount</span><span class="hljs-params">()</span> &#123;<br>        WsSessionManager.onlineCount.getAndIncrement();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">subOnlineCount</span><span class="hljs-params">()</span> &#123;<br>        WsSessionManager.onlineCount.getAndDecrement();<br>    &#125;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * url template：http://localhost/api/websocket/&#123;ws_id&#125;</span><br><span class="hljs-comment">    * 需要在url提取ws_id</span><br><span class="hljs-comment">    */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">getWsId</span><span class="hljs-params">(String requestUrl)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        String[] split = requestUrl.split(<span class="hljs-string">&quot;/api/websocket/&quot;</span>);<br>        <span class="hljs-keyword">if</span> (split.length &lt; <span class="hljs-number">1</span>) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Exception</span>(<span class="hljs-string">&quot;invalid ws request&quot;</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> split[split.length - <span class="hljs-number">1</span>];<br>    &#125;<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="发送消息给前端"><a href="#发送消息给前端" class="headerlink" title="发送消息给前端"></a>发送消息给前端</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">WsSessionManager.sendMessage(ws_id,message)<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="三、前端Vue与websocket集成"><a href="#三、前端Vue与websocket集成" class="headerlink" title="三、前端Vue与websocket集成"></a>三、前端Vue与websocket集成</h3><h4 id="新建websocket-js"><a href="#新建websocket-js" class="headerlink" title="新建websocket.js"></a>新建websocket.js</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// import &#123; showInfoMsg, showErrorMsg &#125; from &#x27;@/utils/popInfo&#x27;</span><br><span class="hljs-keyword">import</span> <span class="hljs-title class_">ElementUI</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;element-ui&#x27;</span>;<br><br><span class="hljs-keyword">const</span> <span class="hljs-variable constant_">WS_API</span> = <span class="hljs-string">`ws://localhost:8080`</span>;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">initWebSocket</span>(<span class="hljs-params">e</span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e)<br>    <span class="hljs-keyword">if</span>(!(<span class="hljs-string">&#x27;WebSocket&#x27;</span><span class="hljs-keyword">in</span> <span class="hljs-variable language_">window</span>)) &#123;<br>        <span class="hljs-title class_">ElementUI</span>.<span class="hljs-title class_">Notification</span>(&#123;<br>            <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;&#x27;</span>,<br>            <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;当前浏览器 Not support websocket&#x27;</span>,<br>            <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;error&#x27;</span>,<br>            <span class="hljs-attr">duration</span>: <span class="hljs-number">0</span>,<br>        &#125;);<br>    &#125;<br>    <span class="hljs-keyword">const</span> wsUri = <span class="hljs-variable constant_">WS_API</span> + <span class="hljs-string">&#x27;/api/websocket/&#x27;</span> + e;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">socket</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebSocket</span>(wsUri); <span class="hljs-comment">//这里面的this都指向vue</span><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">socket</span>.<span class="hljs-property">onerror</span> = webSocketOnError;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">socket</span>.<span class="hljs-property">onmessage</span> = webSocketOnMessage;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">socket</span>.<span class="hljs-property">onclose</span> = closeWebsocket;<br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">webSocketOnError</span>(<span class="hljs-params">e</span>) &#123;<br>    <span class="hljs-comment">// console.log(e)</span><br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e)<br>    <span class="hljs-title class_">ElementUI</span>.<span class="hljs-title class_">Notification</span>(&#123;<br>        <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;&#x27;</span>,<br>        <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;WebSocket连接发生错误&#x27;</span>,<br>        <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;error&#x27;</span>,<br>        <span class="hljs-attr">duration</span>: <span class="hljs-number">3000</span>,<br>    &#125;);<br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">webSocketOnMessage</span>(<span class="hljs-params">e</span>) &#123;<br>    <span class="hljs-keyword">const</span> data = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(e.<span class="hljs-property">data</span>);<br>  <span class="hljs-title class_">ElementUI</span>.<span class="hljs-title class_">Notification</span>(&#123;<br>    <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;&#x27;</span>,<br>    <span class="hljs-attr">message</span>: data.<span class="hljs-property">msg</span>,<br>    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;success&#x27;</span>,<br>    <span class="hljs-attr">duration</span>: <span class="hljs-number">5000</span>,<br>  &#125;);<br>&#125;<br><br><span class="hljs-comment">// 关闭websiocket</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">closeWebsocket</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;连接已关闭...&#x27;</span>);<br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">close</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">socket</span>.<span class="hljs-title function_">close</span>(); <span class="hljs-comment">// 关闭 websocket</span><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">socket</span>.<span class="hljs-property">onclose</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e); <span class="hljs-comment">//监听关闭事件</span><br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;关闭&#x27;</span>);<br>    &#125;;<br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">webSocketSend</span>(<span class="hljs-params">agentData</span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">socket</span>.<span class="hljs-title function_">send</span>(agentData);<br>&#125;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;<br>    initWebSocket,<br>    close,<br>&#125;;<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="在main-js引入"><a href="#在main-js引入" class="headerlink" title="在main.js引入"></a>在main.js引入</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> websocket <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;具体地址/websocket&quot;</span>;<br><br><span class="hljs-title class_">Vue</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">$websocket</span> = websocket;<br></code></pre></td></tr></table></figure>
+
+<p>然后在需要初始化websocket的地方，我是在App.vue全局mounted以下代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">this</span>.<span class="hljs-property">$websocket</span>.<span class="hljs-title function_">initWebSocket</span>(&#123;ws_id&#125;)<span class="hljs-comment">//请根据具体逻辑替换ws_id 我这里填入的是jwt token</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202206071032239.png" srcset="/img/loading.gif" lazyload alt="image-20220606183934456"></p>
+<center><small>进入页面就会连接websocket</small></center>
+
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202206071032020.png" srcset="/img/loading.gif" lazyload alt="image-20220606183828420"></p>
+<center><small>后端通过调用WsSessionManager.sendMessage(ws_id,message)发送消息给具体用户</small></center>
+
+
+
+<h3 id="三、解决websocket-session在分布式系统不共享问题"><a href="#三、解决websocket-session在分布式系统不共享问题" class="headerlink" title="三、解决websocket session在分布式系统不共享问题"></a>三、解决websocket session在分布式系统不共享问题</h3><p>在Spring所集成的WebSocket里面，每个ws连接都有一个对应的session：WebSocketSession，在Spring WebSocket中，我们建立ws连接之后可以通过类似这样的方式进行与客户端的通信。但是 ws的session无法序列化到redis， 因此在集群中，我们无法将所有WebSocketSession都缓存到redis进行session共享。</p>
+<p>本文简单解决方案思路：利用rocketmq广播的特性使得每一台机子都能执行发送消息的动作，这样的操作可能会导致没有对应webSocketSession的机器执行一直没必要的操作，但是因为根据键值ws_id在map中定位session，可以忽略不计。</p>
+<h4 id="简单定义一个数据传输对象"><a href="#简单定义一个数据传输对象" class="headerlink" title="简单定义一个数据传输对象"></a>简单定义一个数据传输对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WebSocketMessageSendDto</span> &#123;<br>    <span class="hljs-keyword">private</span> String wsId;<br>    <span class="hljs-keyword">private</span> String message;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="创建消费者"><a href="#创建消费者" class="headerlink" title="创建消费者"></a>创建消费者</h4><p>重点：messageModel &#x3D; MessageModel.BROADCASTING</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@RocketMQMessageListener(topic = RocketMqConstant.Topic.MERCURY_WEB_SOCKET_MESSAGE_SEND</span><br><span class="hljs-meta">        , consumerGroup = RocketMqConstant.ComsumerGroup.MERCURY_WEB_SOCKET_MESSAGE_SEND,</span><br><span class="hljs-meta">        messageModel = MessageModel.BROADCASTING)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WebSocketMessageSendConsumer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">RocketMQListener</span>&lt;WebSocketMessageSendDto&gt;, RocketMQPushConsumerLifecycleListener &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onMessage</span><span class="hljs-params">(WebSocketMessageSendDto dto)</span> &#123;<br>        log.info(<span class="hljs-string">&quot;WebSocketMessageSendConsumer 接收到信息：&#123;&#125;&quot;</span>,JSON.toJSONString(dto));<br>        <span class="hljs-keyword">try</span> &#123;<br>            WsSessionManager.sendMessage(dto.getWsId(),dto.getMessage());<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(e.getMessage(),e);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span> <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">prepareStart</span><span class="hljs-params">(DefaultMQPushConsumer consumer)</span> &#123;<br>        consumer.setMaxReconsumeTimes(<span class="hljs-number">2</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="消息生产者"><a href="#消息生产者" class="headerlink" title="消息生产者"></a>消息生产者</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">  * 实现服务器主动推送</span><br><span class="hljs-comment">  */</span><br> <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sendMessageBroadcasting</span><span class="hljs-params">(String wsId,String message)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>     <span class="hljs-type">RocketMQTemplate</span> <span class="hljs-variable">rocketMQTemplate</span> <span class="hljs-operator">=</span> SpringContextUtils.getBean(RocketMQTemplate.class);<br>     <span class="hljs-type">WebSocketMessageSendDto</span> <span class="hljs-variable">webSocketMessageSendDto</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebSocketMessageSendDto</span>();<br>     webSocketMessageSendDto.setWsId(wsId);<br>     webSocketMessageSendDto.setMessage(message);<br>   	rocketMQTemplate.convertAndSend(RocketMqConstant.Topic.MERCURY_WEB_SOCKET_MESSAGE_SEND, JSON.toJSONString(webSocketMessageSendDto))<br> &#125;<br>  <br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Springboot/" class="category-chain-item">Springboot</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/WebSocket/" class="print-no-link">#WebSocket</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Springboot集成WebSocket实现消息推送 记录</div>
+      <div>https://cason.work/2022/06/07/Springboot集成WebSocket实现消息推送-记录/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cason Mo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年6月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/16/Threadlocal%E7%9A%84%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3%E5%92%8C%E9%83%A8%E5%88%86%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" title="Threadlocal的简单理解和部分源码分析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Threadlocal的简单理解和部分源码分析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/09/%E5%BA%97%E5%8C%A0%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91-%E5%88%9B%E5%BB%BA%E5%BA%97%E5%8C%A0%E5%BA%94%E7%94%A8/" title="店匠插件开发-创建店匠应用">
+                        <span class="hidden-mobile">店匠插件开发-创建店匠应用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"CasonMo/comment-utterances","repo-id":"R_kgDOHS6Rzw","category":"Announcements","category-id":"DIC_kwDOHS6Rz84Cegpi","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN","theme":"preferred_color_scheme"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022147183号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

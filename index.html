@@ -1,0 +1,875 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cason Mo">
+  <meta name="keywords" content="">
+  
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Blog|CasonMo-Java后端知识学习经验分享">
+<meta property="og:url" content="https://cason.work/index.html">
+<meta property="og:site_name" content="Blog|CasonMo-Java后端知识学习经验分享">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Cason Mo">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+    <meta name="google-site-verification" content="f-Zx1s0QlBYDQAEQEaqHl-vpTbRmq-FDQ8IRLOTat6c" />
+  
+  <title>Blog|CasonMo-Java后端知识学习经验分享</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"cason.work","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mrkAghx9eMrolWwrYAdkz1JY-MdYXbMMI","app_key":"ySRiT9dGUKi9GsTq8uKjf4kc","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Blog|CasonMo-Java后端知识学习经验分享" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cason Mo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://tool.cason.work/" target="_self">
+                <i class="iconfont icon-briefcase"></i>
+                <span>开发工具集合</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span></span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="杏迟梅早何先后 结实花开自有时"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/11/12/%E5%8F%AF%E9%9D%A0%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F-paxos%E7%9A%84%E7%9B%B4%E8%A7%82%E8%A7%A3%E9%87%8A/" target="_self">
+          可靠分布式系统-paxos的直观解释
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/12/%E5%8F%AF%E9%9D%A0%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F-paxos%E7%9A%84%E7%9B%B4%E8%A7%82%E8%A7%A3%E9%87%8A/" target="_self">
+        <div>
+          转载自https://zhuanlan.zhihu.com/p/145044486  update 2020-11-26: 本文讲的算法, 好多同学问起实现细节的问题, 基本可以在下面这篇找到想要的答案: drdr xp：200行代码实现基于paxos的kv存储262 赞同 · 37 评论文章 之前在每个呆过的公司都做过至少1次paxos的培训(在别人家公司也做过几次), paxos其实挺好理解
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-11-12 17:38" pubdate>
+              2024-11-12
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/11/12/%E5%B9%BF%E5%91%8A%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E7%AE%80%E5%8D%95%E6%95%B4%E7%90%86/" target="_self">
+          广告体系架构简单整理
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/12/%E5%B9%BF%E5%91%8A%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E7%AE%80%E5%8D%95%E6%95%B4%E7%90%86/" target="_self">
+        <div>
+          1. 数据来源 H5 和 App：通过 JavaScript 和 SDK 实现用户行为数据的埋点采集。 广告平台：通过 API 与广告平台进行交互，采集广告相关数据。 HTTP：其他通过 HTTP 接口传输的数据。对接广告平台（媒体）API获取投放的广告的报表数据，或者MMP的webhook回调等等  2. 数据采集 Kafka：作为消息队列，用于存储和传输采集到的用户行为数据。Kafka 负责
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-11-12 11:22" pubdate>
+              2024-11-12
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B9%BF%E5%91%8A/">#广告</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/10/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-mmap%E3%80%81sendFile%E3%80%81splice%E4%B8%89%E7%A7%8D%E9%9B%B6%E6%8B%B7%E8%B4%9D%E6%8A%80%E6%9C%AF%E4%BB%8B%E7%BB%8D/" target="_self">
+          操作系统-mmap、sendFile、splice三种零拷贝技术介绍
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/10/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-mmap%E3%80%81sendFile%E3%80%81splice%E4%B8%89%E7%A7%8D%E9%9B%B6%E6%8B%B7%E8%B4%9D%E6%8A%80%E6%9C%AF%E4%BB%8B%E7%BB%8D/" target="_self">
+        <div>
+          转载文章  介绍在传统网络数据传输的过程中，数据会被来回拷贝很多次，而其中有一些是不必要拷贝，而零拷贝技术就是为了减少这些不必要的数据复制操作。下面会详细介绍各种数据拷贝的详细过程，这也是一个非常高频的面试问题。 传统数据拷贝当我们通过网络从服务器上获取数据时，数据整体的传输过程是这样子的，如图（可以放大看）：  详细过程：  等待cpu调度，通过cpu发起io请求，通过read()方法读取数据
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-29 17:15" pubdate>
+              2024-10-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/">#零拷贝</a>
+            
+              <a href="/tags/mmap/">#mmap</a>
+            
+              <a href="/tags/sendFile/">#sendFile</a>
+            
+              <a href="/tags/splice/">#splice</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/07/29/%E6%8A%93%E5%8C%85%E7%B2%BE%E7%81%B5-%E4%B8%8A%E4%BC%A0%E5%8A%9F%E8%83%BD%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81/" target="_self">
+          抓包精灵-上传功能服务端代码
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/07/29/%E6%8A%93%E5%8C%85%E7%B2%BE%E7%81%B5-%E4%B8%8A%E4%BC%A0%E5%8A%9F%E8%83%BD%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81/" target="_self">
+        <div>
+          服务端代码 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253const express = require(&#x27;express&#x27;);const multiparty = require(&#x27;multiparty&#x27;);c
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-07-29 16:53" pubdate>
+              2024-07-29
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/07/01/Tunnelblick%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87Google-Authenticator-Token-%E8%B0%B7%E6%AD%8C%E9%AA%8C%E8%AF%81%E5%99%A8%E9%AA%8C%E8%AF%81%E7%A0%81/" target="_self">
+          Tunnelblick身份验证自动通过Google Authenticator Token(谷歌验证器验证码)
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/07/01/Tunnelblick%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87Google-Authenticator-Token-%E8%B0%B7%E6%AD%8C%E9%AA%8C%E8%AF%81%E5%99%A8%E9%AA%8C%E8%AF%81%E7%A0%81/" target="_self">
+        <div>
+          文档地址  Using Scripts - Tunnelblick | Free open source OpenVPN VPN client server software GUI for Mac OS X. https://tunnelblick.net/cMultiFactorAuthentication.html  原理大概就是：Tunnelblick开启了Google Authentic
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-07-01 18:34" pubdate>
+              2024-07-01
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/05/30/%E7%A7%BB%E5%8A%A8%E6%B5%8B%E9%87%8F%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%EF%BC%88MMP%EF%BC%89%E7%9A%84%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E9%93%BE%E8%B7%AF/" target="_self">
+          移动测量合作伙伴（MMP）的广告归因链路
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/30/%E7%A7%BB%E5%8A%A8%E6%B5%8B%E9%87%8F%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%EF%BC%88MMP%EF%BC%89%E7%9A%84%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E9%93%BE%E8%B7%AF/" target="_self">
+        <div>
+          移动测量合作伙伴（MMP）的广告归因链路移动测量合作伙伴（Mobile Measurement Partner，简称MMP）是一类专门提供移动应用广告归因和分析服务的第三方平台。MMP的主要功能是帮助广告主和应用开发者跟踪和分析广告效果，确定用户的来源，从而优化广告投放策略，提高广告投放的投资回报率（ROI）。广告归因是MMP的核心功能之一，通过收集和分析用户的点击和安装数据，确定用户是通过哪个广
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-05-30 15:02" pubdate>
+              2024-05-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B9%BF%E5%91%8A/">#广告</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/04/29/Springboot-Redisson%E5%AE%9E%E7%8E%B0%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" target="_self">
+          Springboot-Redisson实现延迟消息队列
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/04/29/Springboot-Redisson%E5%AE%9E%E7%8E%B0%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" target="_self">
+        <div>
+          Redisson是一个基于Redis的Java驻留库，旨在简化Java应用程序对Redis的操作。它提供了丰富的功能和易于使用的API，使得在Java应用中集成Redis变得更加简单和高效。Redisson的主要功能包括分布式对象、分布式锁、分布式队列、分布式调度器等，使得在分布式环境中进行协作变得更加容易。 延迟队列是Redisson提供的一个功能强大的组件之一。它允许开发者在指定的延迟时间之后
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-04-29 11:42" pubdate>
+              2024-04-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Springboot/" class="category-chain-item">Springboot</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Redisson/">#Redisson</a>
+            
+              <a href="/tags/Redis/">#Redis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/04/22/%E5%AE%9E%E7%94%A8%E7%9A%84-IntelliJ-%E6%8F%92%E4%BB%B6/" target="_self">
+          实用的 IntelliJ 插件
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/04/22/%E5%AE%9E%E7%94%A8%E7%9A%84-IntelliJ-%E6%8F%92%E4%BB%B6/" target="_self">
+        <div>
+          Translation最好用过的翻译工具  RoboPOJOGeneratorIntelliJ Idea 和 Android Studio 的插件，用于将 JSON 转换为 POJO。 从 JSON 生成 Java、Java Records 和 Kotlin 的 POJO 文件：GSON、FastJSON、AutoValue（GSON）、Logan Square、Jackson、Lombok、Ja
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-04-22 11:13" pubdate>
+              2024-04-22
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/IntelliJ/">#IntelliJ</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/04/15/%E8%85%BE%E8%AE%AF%E4%BA%91%E5%A4%A7%E6%96%87%E4%BB%B6%E8%BF%81%E7%A7%BB%E6%95%99%E7%A8%8B-%E5%86%85%E7%BD%91%E4%BA%92%E8%81%94-scp/" target="_self">
+          腾讯云大文件迁移教程-内网互联+scp
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/04/15/%E8%85%BE%E8%AE%AF%E4%BA%91%E5%A4%A7%E6%96%87%E4%BB%B6%E8%BF%81%E7%A7%BB%E6%95%99%E7%A8%8B-%E5%86%85%E7%BD%91%E4%BA%92%E8%81%94-scp/" target="_self">
+        <div>
+          超过几十GB的大文件传输，通过公网会非常的慢几乎2mb&#x2F;s，腾讯云提供了内网互联的功能，内网传输就会很快上100mb&#x2F;s 创建内网互联 云联网 - 私有网络 - 控制台 (tencent.com)   获取账号ID和云联网ID    云服务器关联云联网 点击实例-&gt;网络信息-&gt;所属网络  点击进去     ​	  输入刚刚获取的账号ID和云联网ID   同意加入云联
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-04-15 14:08" pubdate>
+              2024-04-15
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/04/12/Springboot-Guava-Eventbus%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_self">
+          Springboot Guava Eventbus简单使用
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/04/12/Springboot-Guava-Eventbus%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_self">
+        <div>
+          简单介绍EventBus是 Google Guava 提供的一个事件总线库，用于简化组件之间的通信。它基于发布-订阅模式，允许组件在不直接依赖彼此的情况下进行通信。在一个应用程序中，当某个组件触发了一个事件，所有订阅了该事件的组件都会收到通知并执行相应的操作。 简单来说，EventBus 可以帮助你解耦代码，使得组件之间更加灵活和独立。 简单使用 事件（Event） 事件是系统中某一特定状态的表示
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-04-12 18:16" pubdate>
+              2024-04-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Springboot/" class="category-chain-item">Springboot</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/EventBus/">#EventBus</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/#board">6</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022147183号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

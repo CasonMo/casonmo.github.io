@@ -1,0 +1,841 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cason Mo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="栈栈（stack）是限制插入和删除只能在一个位置上进行的表，该位置是表的末端叫做栈的顶（top），对栈的基本操作有 push(进栈)和 pop(出栈),前者相当于插入，后者则是删除最后插入的元素。 栈的另一个名字是 LIFO（先进后出）表 12345678910111213141516171819202122232425262728293031323334353637public class St">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构笔记">
+<meta property="og:url" content="https://cason.work/2022/12/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Blog|CasonMo-Java后端知识学习经验分享">
+<meta property="og:description" content="栈栈（stack）是限制插入和删除只能在一个位置上进行的表，该位置是表的末端叫做栈的顶（top），对栈的基本操作有 push(进栈)和 pop(出栈),前者相当于插入，后者则是删除最后插入的元素。 栈的另一个名字是 LIFO（先进后出）表 12345678910111213141516171819202122232425262728293031323334353637public class St">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202212281826260.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202212281826519.png">
+<meta property="article:published_time" content="2022-12-27T09:11:23.000Z">
+<meta property="article:modified_time" content="2025-02-07T02:09:54.677Z">
+<meta property="article:author" content="Cason Mo">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202212281826260.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+    <meta name="google-site-verification" content="f-Zx1s0QlBYDQAEQEaqHl-vpTbRmq-FDQ8IRLOTat6c" />
+  
+  <title>数据结构笔记 - Blog|CasonMo-Java后端知识学习经验分享</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"cason.work","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mrkAghx9eMrolWwrYAdkz1JY-MdYXbMMI","app_key":"ySRiT9dGUKi9GsTq8uKjf4kc","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Blog|CasonMo-Java后端知识学习经验分享" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cason Mo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://tool.cason.work/" target="_self">
+                <i class="iconfont icon-briefcase"></i>
+                <span>开发工具集合</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span></span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="数据结构笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-27 17:11" pubdate>
+          2022年12月27日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">数据结构笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h1><p><strong>栈（stack）是限制插入和删除只能在一个位置上进行的表</strong>，该位置是表的末端叫做栈的顶（top），对栈的基本操作有 push(进栈)和 pop(出栈),前者相当于插入，后者则是删除最后插入的元素。</p>
+<p>栈的另一个名字是 LIFO（先进后出）表</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">StackTest</span> &#123;<br><br>    <span class="hljs-type">int</span> len;<br>    <span class="hljs-type">int</span>[] elems;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">top</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">StackTest</span><span class="hljs-params">(<span class="hljs-type">int</span> len)</span> &#123;<br>        <span class="hljs-built_in">this</span>.len = len;<br>        <span class="hljs-built_in">this</span>.elems = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[len];<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isFull</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-type">return</span> <span class="hljs-variable">top</span> <span class="hljs-operator">=</span>= len - <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isEmpty</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-type">return</span> <span class="hljs-variable">top</span> <span class="hljs-operator">=</span>= -<span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">pop</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">if</span> (isEmpty()) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;empty stack&quot;</span>);<br>        &#125;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">val</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.elems[top];<br>        top--;<br>        <span class="hljs-keyword">return</span> val;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">push</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span> &#123;<br>        <span class="hljs-keyword">if</span> (isFull()) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;full stack&quot;</span>);<br>        &#125;<br>        top++;<br>        elems[top] = i;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h1><p>像栈一样，队列（queue）也是表。然而使用队列时插入在一端进行而删除在另一端进行，遵守先进先出的规则。所以队列的另一个名字是（FIFO）。</p>
+<p>队列的基本操作是入队（enqueue）:它是在表的末端(队尾(rear)插入一个元素。出队（dequeue）:出队他是删除在表的开头（队头(front)）的元素。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">QueueTest</span> &#123;<br><br>    <span class="hljs-type">int</span> <span class="hljs-variable">rear</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1</span>;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">front</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1</span>;<br>    <span class="hljs-type">int</span> size;<br>    <span class="hljs-type">int</span>[] elems;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">QueueTest</span><span class="hljs-params">(<span class="hljs-type">int</span> size)</span> &#123;<br>        <span class="hljs-built_in">this</span>.size = size;<br>        <span class="hljs-built_in">this</span>.elems = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[size];<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isEmpty</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">return</span> <span class="hljs-variable">rear</span> <span class="hljs-operator">=</span>= front;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isFull</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> (rear + <span class="hljs-number">1</span>) % <span class="hljs-built_in">this</span>.size == front;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">dequeue</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">if</span> (isEmpty()) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;empty queue&quot;</span>);<br>        &#125;<br>        <span class="hljs-built_in">this</span>.front = (<span class="hljs-built_in">this</span>.front + <span class="hljs-number">1</span>) % <span class="hljs-built_in">this</span>.size;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.elems[<span class="hljs-built_in">this</span>.front];<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">enqueue</span><span class="hljs-params">(<span class="hljs-type">int</span> val)</span> &#123;<br>        <span class="hljs-keyword">if</span> (isFull()) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;full queue&quot;</span>);<br>        &#125;<br>        <span class="hljs-built_in">this</span>.rear = (<span class="hljs-built_in">this</span>.rear + <span class="hljs-number">1</span>) % <span class="hljs-built_in">this</span>.size;<br>        <span class="hljs-built_in">this</span>.elems[<span class="hljs-built_in">this</span>.rear] = val;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="散列表"><a href="#散列表" class="headerlink" title="散列表"></a>散列表</h1><p>散列过程</p>
+<ul>
+<li>通过<strong>散列函数</strong>计算记录的散列地址，并按此<strong>散列地址</strong>存储该记录</li>
+<li>查找时，我们通过<strong>同样的散列函数</strong>计算记录的散列地址，按此散列地址访问该记录</li>
+</ul>
+<p>散列函数构造方法</p>
+<ul>
+<li><p>直接定址法</p>
+</li>
+<li><p>数字分析法</p>
+</li>
+<li><p>折叠法</p>
+</li>
+<li><p>除法散列法</p>
+</li>
+<li><p>乘法散列法</p>
+</li>
+<li><p>随机数法</p>
+</li>
+<li><p>平方取中法</p>
+</li>
+</ul>
+<p>处理散列冲突的方法</p>
+<ul>
+<li>开放地址法</li>
+<li>链地址法</li>
+<li>公共溢出区法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HashTest</span> &#123;<br>    KeyValue[] elements;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">6</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">HashTest</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-built_in">this</span>.elements = <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyValue</span>[size];<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">put</span><span class="hljs-params">(String key,String value)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">index</span> <span class="hljs-operator">=</span> key.hashCode() % <span class="hljs-built_in">this</span>.size;<br>        <span class="hljs-type">KeyValue</span> <span class="hljs-variable">element</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.elements[index];<br>        <span class="hljs-keyword">if</span> (element != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">while</span> (element.next != <span class="hljs-literal">null</span>) &#123;<br>                element = element.next;<br>            &#125;<br>            <span class="hljs-type">KeyValue</span> <span class="hljs-variable">newKv</span> <span class="hljs-operator">=</span>  <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyValue</span>(key, value);<br>            newKv.setNext(element);<br>            <span class="hljs-built_in">this</span>.elements[index] = newKv;<br>        &#125;<span class="hljs-keyword">else</span> &#123;<br>            element = <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyValue</span>(key, value);<br>            <span class="hljs-built_in">this</span>.elements[index] = element;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">get</span><span class="hljs-params">(String key)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">index</span> <span class="hljs-operator">=</span> key.hashCode() % <span class="hljs-built_in">this</span>.size;<br>        <span class="hljs-type">KeyValue</span> <span class="hljs-variable">element</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.elements[index];<br>        <span class="hljs-keyword">while</span> (!element.getKey().equals(key)) &#123;<br>            element=element.next;<br>        &#125;<br>        <span class="hljs-keyword">return</span> element.getValue();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">KeyValue</span> &#123;<br>        <span class="hljs-keyword">private</span> String key;<br>        <span class="hljs-keyword">private</span> String value;<br>        <span class="hljs-keyword">private</span> KeyValue next;<br><br>        <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getKey</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">return</span> key;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setKey</span><span class="hljs-params">(String key)</span> &#123;<br>            <span class="hljs-built_in">this</span>.key = key;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getValue</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">return</span> value;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setValue</span><span class="hljs-params">(String value)</span> &#123;<br>            <span class="hljs-built_in">this</span>.value = value;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> KeyValue <span class="hljs-title function_">getNext</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">return</span> next;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setNext</span><span class="hljs-params">(KeyValue next)</span> &#123;<br>            <span class="hljs-built_in">this</span>.next = next;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-title function_">KeyValue</span><span class="hljs-params">(String key, String value)</span> &#123;<br>            <span class="hljs-built_in">this</span>.key = key;<br>            <span class="hljs-built_in">this</span>.value = value;<br>            <span class="hljs-built_in">this</span>.next = <span class="hljs-literal">null</span>;<br>        &#125;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h1><p>定义：链表是一种递归的数据结构，他或者为空（null），或者是指向一个结点（node）的引用，该结点含有一个泛型的元素和一个指向另一条链表的引用。是一种线性表，但是他不是按线性顺序存取数据。链表在内存不是连续分配的</p>
+<p>链表的类型</p>
+<ul>
+<li>单链表</li>
+<li>双向链表</li>
+</ul>
+<h1 id="树"><a href="#树" class="headerlink" title="树"></a>树</h1><p>树是 n （n &gt;&#x3D; 0） 个节点的有限集。 n &#x3D; 0 时 我们称之为空树, 空树是树的特例。</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202212281826260.png" srcset="/img/loading.gif" lazyload alt="image-20221228121105999"></p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202212281826519.png" srcset="/img/loading.gif" lazyload alt="image-20221228121120312"></p>
+<p>整理源自<a target="_blank" rel="noopener" href="https://github.com/chefyuan/algorithm-base/blob/main/animation-simulation/%E4%BA%8C%E5%8F%89%E6%A0%91/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E7%A1%80.md">algorithm-base&#x2F;二叉树基础.md at main · chefyuan&#x2F;algorithm-base · GitHub</a></p>
+<h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><ul>
+<li>每个节点最多有两棵子树，也就是说二叉树中不存在度大于 2 的节点，节点的度可以为 0，1，2。</li>
+<li>左子树和右子树是有顺序的,有左右之分。</li>
+<li>假如只有一棵子树 ，也要区分它是左子树还是右子树</li>
+</ul>
+<h2 id="特殊的二叉树"><a href="#特殊的二叉树" class="headerlink" title="特殊的二叉树"></a>特殊的二叉树</h2><h3 id="满二叉树"><a href="#满二叉树" class="headerlink" title="满二叉树"></a>满二叉树</h3><p>满二叉树：在一棵二叉树中，<code>所有分支节点都存在左子树和右子树</code>，并且<code>所有的叶子都在同一层</code></p>
+<h3 id="完全二叉树"><a href="#完全二叉树" class="headerlink" title="完全二叉树"></a>完全二叉树</h3><p>叶子结点只能出现在最下层和次下层，且最下层的叶子结点集中在树的左部。</p>
+<h3 id="斜二叉树"><a href="#斜二叉树" class="headerlink" title="斜二叉树"></a>斜二叉树</h3><p>斜二叉树也就是斜的二叉树,所有的节点只有左子树的称为左斜树,所有节点只有右子树的二叉树称为右斜树.</p>
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>前序遍历</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> TreeNode <span class="hljs-title function_">traverse</span><span class="hljs-params">(TreeNode root, List&lt;Integer&gt; arr)</span> &#123;<br>     <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">null</span>) &#123;<br>         <span class="hljs-keyword">return</span> root;<br>     &#125;<br>     arr.add(root.val);<br>     traverse(root.left, arr);<br>     traverse(root.right, arr);<br>     <span class="hljs-keyword">return</span> root;<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<p>中序遍历</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> TreeNode <span class="hljs-title function_">traverse</span><span class="hljs-params">(TreeNode root, List&lt;Integer&gt; arr)</span> &#123;<br>     <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">null</span>) &#123;<br>         <span class="hljs-keyword">return</span> root;<br>     &#125;<br>     traverse(root.left, arr);<br>  	 	arr.add(root.val);<br>     traverse(root.right, arr);<br>     <span class="hljs-keyword">return</span> root;<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<p>后序遍历</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> TreeNode <span class="hljs-title function_">traverse</span><span class="hljs-params">(TreeNode root, List&lt;Integer&gt; arr)</span> &#123;<br>     <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">null</span>) &#123;<br>         <span class="hljs-keyword">return</span> root;<br>     &#125;<br>     traverse(root.left, arr);<br>     traverse(root.right, arr);<br>   	arr.add(root.val);<br>     <span class="hljs-keyword">return</span> root;<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<p>层级遍历</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="hljs-title function_">levelOrder</span><span class="hljs-params">(TreeNode root)</span> &#123;<br>        List&lt;List&lt;Integer&gt;&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> list;<br>        &#125;<br>        Queue&lt;TreeNode&gt; queue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;();<br>        queue.offer(root);<br>        <span class="hljs-keyword">while</span> (!queue.isEmpty()) &#123;<br>            List&lt;Integer&gt; temp = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>            <span class="hljs-comment">//提前取出这层的size ，queue的size是不断变化的</span><br>            <span class="hljs-type">int</span> <span class="hljs-variable">size</span> <span class="hljs-operator">=</span> queue.size();<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; size; i++) &#123;<br>                <span class="hljs-type">TreeNode</span> <span class="hljs-variable">treeNode</span> <span class="hljs-operator">=</span> queue.poll();<br>              <span class="hljs-comment">//出队列前就取出这个节点的左右子节点</span><br>                <span class="hljs-keyword">if</span>(treeNode.left!=<span class="hljs-literal">null</span>) queue.offer(treeNode.left);<br>                <span class="hljs-keyword">if</span>(treeNode.right!=<span class="hljs-literal">null</span>) queue.offer(treeNode.right);<br>                temp.add(treeNode.val);<br>            &#125;<br>            list.add(temp);<br>        &#125;<br>        <span class="hljs-keyword">return</span> list;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="print-no-link">#数据结构</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>数据结构笔记</div>
+      <div>https://cason.work/2022/12/27/数据结构笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cason Mo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/27/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" title="算法笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">算法笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/01/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95-Mysql-select-count-1-%E3%80%81count-%E3%80%81count-column/" title="面试问题记录-Mysql select count(1)、count(*)、count(column)">
+                        <span class="hidden-mobile">面试问题记录-Mysql select count(1)、count(*)、count(column)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"CasonMo/comment-utterances","repo-id":"R_kgDOHS6Rzw","category":"Announcements","category-id":"DIC_kwDOHS6Rz84Cegpi","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN","theme":"preferred_color_scheme"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022147183号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

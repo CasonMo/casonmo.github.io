@@ -1,0 +1,812 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cason Mo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一个URL从浏览器输入到应用服务处理的完整请求过程涉及多个步骤，以下是一个简要的概述：  URL解析和分析： 用户在浏览器中输入URL（统一资源定位符）。浏览器需要解析这个URL，它包括协议（如http、https）、域名（例如www.example.com）、路径、查询参数等等。  DNS解析： 浏览器需要将域名解析为IP地址，这一过程称为DNS解析。浏览器向本地DNS服务器发送请求，本地DNS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从输入URL到页面展示发生了什么？">
+<meta property="og:url" content="https://cason.work/2023/08/10/%E4%BB%8E%E8%BE%93%E5%85%A5URL%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/index.html">
+<meta property="og:site_name" content="Blog|CasonMo-Java后端知识学习经验分享">
+<meta property="og:description" content="一个URL从浏览器输入到应用服务处理的完整请求过程涉及多个步骤，以下是一个简要的概述：  URL解析和分析： 用户在浏览器中输入URL（统一资源定位符）。浏览器需要解析这个URL，它包括协议（如http、https）、域名（例如www.example.com）、路径、查询参数等等。  DNS解析： 浏览器需要将域名解析为IP地址，这一过程称为DNS解析。浏览器向本地DNS服务器发送请求，本地DNS">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-10T11:37:36.000Z">
+<meta property="article:modified_time" content="2025-02-07T02:09:54.674Z">
+<meta property="article:author" content="Cason Mo">
+<meta property="article:tag" content="面试问题">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+    <meta name="google-site-verification" content="f-Zx1s0QlBYDQAEQEaqHl-vpTbRmq-FDQ8IRLOTat6c" />
+  
+  <title>从输入URL到页面展示发生了什么？ - Blog|CasonMo-Java后端知识学习经验分享</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"cason.work","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mrkAghx9eMrolWwrYAdkz1JY-MdYXbMMI","app_key":"ySRiT9dGUKi9GsTq8uKjf4kc","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Blog|CasonMo-Java后端知识学习经验分享" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cason Mo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://tool.cason.work/" target="_self">
+                <i class="iconfont icon-briefcase"></i>
+                <span>开发工具集合</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span></span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="从输入URL到页面展示发生了什么？"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-08-10 19:37" pubdate>
+          2023年8月10日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          891 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">从输入URL到页面展示发生了什么？</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>一个URL从浏览器输入到应用服务处理的完整请求过程涉及多个步骤，以下是一个简要的概述：</p>
+<ol>
+<li><p><strong>URL解析和分析</strong>： 用户在浏览器中输入URL（统一资源定位符）。浏览器需要解析这个URL，它包括协议（如http、https）、域名（例如<a target="_blank" rel="noopener" href="http://www.example.com)、路径、查询参数等等./">www.example.com）、路径、查询参数等等。</a></p>
+</li>
+<li><p><strong>DNS解析</strong>： 浏览器需要将域名解析为IP地址，这一过程称为DNS解析。浏览器向本地DNS服务器发送请求，本地DNS服务器可能会查询其缓存，如果找不到，它会向根DNS服务器逐步查询，最终找到对应的IP地址。</p>
+</li>
+<li><p><strong>建立TCP连接</strong>： 通过解析得到的IP地址，浏览器与目标服务器建立TCP连接。这个过程涉及TCP的三次握手，确保浏览器与服务器之间可以进行数据传输。</p>
+</li>
+<li><p><strong>发起HTTP请求</strong>： 一旦TCP连接建立，浏览器会向服务器发送一个HTTP请求。这个请求中包含了之前解析得到的路径、查询参数、请求方法（GET、POST等）、Headers（例如User-Agent、Cookie等）等信息。</p>
+<blockquote>
+<p>:authority:cason.work</p>
+<p>:method:GET</p>
+<p>:path:&#x2F;api&#x2F;user&#x2F;sysInfo</p>
+<p>:scheme:https</p>
+<p>Accept:application&#x2F;json, text&#x2F;plain, <em>&#x2F;</em></p>
+<p>Accept-Encoding:gzip, deflate, br</p>
+<p>Accept-Language:zh-CN,zh;q&#x3D;0.9,en;q&#x3D;0.8,en-US;q&#x3D;0.7,en-GB;q&#x3D;0.6</p>
+<p>Cache-Control:no-cache</p>
+<p>Cookie:na me&#x3D;1691121971; </p>
+<p>Pragma:no-cache</p>
+<p>Referer:<a href="https://cason.work/">https://cason.work/</a></p>
+<p>Sec-Fetch-Dest:empty</p>
+<p>Sec-Fetch-Mode:cors</p>
+<p>Sec-Fetch-Site:same-origin</p>
+<p>Token:***</p>
+<p>User-Agent:Mozilla&#x2F;5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit&#x2F;605.1.15 (KHTML, like Gecko) Version&#x2F;13.0.3 Mobile&#x2F;15E148 Safari&#x2F;604.1 Edg&#x2F;115.0.0.0</p>
+</blockquote>
+</li>
+<li><p><strong>服务器处理请求</strong>： 服务器接收到HTTP请求后，会根据请求的内容进行处理。如果请求的是静态资源（例如HTML文件、图片等），服务器会从文件系统中读取资源并返回给浏览器。如果请求需要应用逻辑处理（例如通过某种编程语言生成动态内容），服务器会将请求转发给相应的应用服务。</p>
+</li>
+<li><p><strong>应用服务处理</strong>： 应用服务接收到请求后，根据请求的内容执行相应的逻辑。这可能包括从数据库中检索数据、处理业务逻辑、生成动态内容等。</p>
+</li>
+<li><p><strong>生成HTTP响应</strong>： 应用服务处理完请求后，会生成一个HTTP响应。这个响应包括了状态码（例如200表示成功、404表示资源未找到等）、Headers（例如Content-Type、Cache-Control等）以及实际的响应内容。</p>
+<blockquote>
+<details open=""><devtools-response-header-section style="display: block;"><devtools-header-section-row data-index="0" style="display: block; --override-error-background-color: #d93025; margin-top: 2px;"><div class=" row " style="display: flex; line-height: 20px; padding-left: 8px; gap: 12px; user-select: text;"><div class=" header-name " style="color: var(--color-text-primary); font-weight: 400; width: 160px; flex-shrink: 0; text-transform: capitalize; overflow-wrap: break-word;">Cache-Control:</div><div class=" header-value " style="display: flex; overflow-wrap: anywhere;">no-cache, no-store, max-age=0, must-revalidate<devtools-button class="enable-editing inline-button" role="presentation" title="替代标头" style="display: inline-flex; flex-direction: row; vertical-align: middle; opacity: 0; visibility: hidden; transition: opacity 200ms ease 0s; padding-left: 2px;"><button class=" round only-icon small tiny explicit-size " style="margin: 0px; padding: 0px; box-sizing: border-box; --button-has-right-border-radius: calc(1 - var(--override-button-no-right-border-radius, 0)); --button-border-size: 1px; --button-height: 18px; --button-width: 18px; align-items: center; border-radius: 100%; display: inline-flex; font-family: inherit; font-size: 12px; font-weight: 500; height: var(--button-height); line-height: 14px; justify-content: center; width: var(--button-width); white-space: nowrap; background: transparent; border: none; overflow: hidden;"><devtools-icon style="display: inline-block; white-space: nowrap; position: relative; margin: 0px; padding: 0px; box-sizing: border-box; width: unset; height: unset; --icon-color: var(--icon-default);"><div class="icon-basic" style="width: 16px; height: 16px; display: block; -webkit-mask-image: url(&quot;devtools://devtools/bundled/Images/edit.svg&quot;); -webkit-mask-position: center center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 99%; background-color: var(--icon-color, var(--color-background));"></div></devtools-icon><slot style="margin: 0px; padding: 0px; box-sizing: border-box;"></slot></button></devtools-button></div></div></devtools-header-section-row><devtools-header-section-row data-index="1" style="display: block; --override-error-background-color: #d93025;"><div class=" row " style="display: flex; line-height: 20px; padding-left: 8px; gap: 12px; user-select: text;"><div class=" header-name " style="color: var(--color-text-primary); font-weight: 400; width: 160px; flex-shrink: 0; text-transform: capitalize; overflow-wrap: break-word;">Content-Type:</div><div class=" header-value " style="display: flex; overflow-wrap: anywhere;">application/json<devtools-button class="enable-editing inline-button" role="presentation" title="替代标头" style="display: inline-flex; flex-direction: row; vertical-align: middle; opacity: 0; visibility: hidden; transition: opacity 200ms ease 0s; padding-left: 2px;"><button class=" round only-icon small tiny explicit-size " style="margin: 0px; padding: 0px; box-sizing: border-box; --button-has-right-border-radius: calc(1 - var(--override-button-no-right-border-radius, 0)); --button-border-size: 1px; --button-height: 18px; --button-width: 18px; align-items: center; border-radius: 100%; display: inline-flex; font-family: inherit; font-size: 12px; font-weight: 500; height: var(--button-height); line-height: 14px; justify-content: center; width: var(--button-width); white-space: nowrap; background: transparent; border: none; overflow: hidden;"><devtools-icon style="display: inline-block; white-space: nowrap; position: relative; margin: 0px; padding: 0px; box-sizing: border-box; width: unset; height: unset; --icon-color: var(--icon-default);"><div class="icon-basic" style="width: 16px; height: 16px; display: block; -webkit-mask-image: url(&quot;devtools://devtools/bundled/Images/edit.svg&quot;); -webkit-mask-position: center center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 99%; background-color: var(--icon-color, var(--color-background));"></div></devtools-icon><slot style="margin: 0px; padding: 0px; box-sizing: border-box;"></slot></button></devtools-button></div></div></devtools-header-section-row><devtools-header-section-row data-index="2" style="display: block; --override-error-background-color: #d93025;"><div class=" row " style="display: flex; line-height: 20px; padding-left: 8px; gap: 12px; user-select: text;"><div class=" header-name " style="color: var(--color-text-primary); font-weight: 400; width: 160px; flex-shrink: 0; text-transform: capitalize; overflow-wrap: break-word;">Date:</div><div class=" header-value " style="display: flex; overflow-wrap: anywhere;">Thu, 10 Aug 2023 11:47:23 GMT<devtools-button class="enable-editing inline-button" role="presentation" title="替代标头" style="display: inline-flex; flex-direction: row; vertical-align: middle; opacity: 0; visibility: hidden; transition: opacity 200ms ease 0s; padding-left: 2px;"><button class=" round only-icon small tiny explicit-size " style="margin: 0px; padding: 0px; box-sizing: border-box; --button-has-right-border-radius: calc(1 - var(--override-button-no-right-border-radius, 0)); --button-border-size: 1px; --button-height: 18px; --button-width: 18px; align-items: center; border-radius: 100%; display: inline-flex; font-family: inherit; font-size: 12px; font-weight: 500; height: var(--button-height); line-height: 14px; justify-content: center; width: var(--button-width); white-space: nowrap; background: transparent; border: none; overflow: hidden;"><devtools-icon style="display: inline-block; white-space: nowrap; position: relative; margin: 0px; padding: 0px; box-sizing: border-box; width: unset; height: unset; --icon-color: var(--icon-default);"><div class="icon-basic" style="width: 16px; height: 16px; display: block; -webkit-mask-image: url(&quot;devtools://devtools/bundled/Images/edit.svg&quot;); -webkit-mask-position: center center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 99%; background-color: var(--icon-color, var(--color-background));"></div></devtools-icon><slot style="margin: 0px; padding: 0px; box-sizing: border-box;"></slot></button></devtools-button></div></div></devtools-header-section-row><devtools-header-section-row data-index="3" style="display: block; --override-error-background-color: #d93025;"><div class=" row " style="display: flex; line-height: 20px; padding-left: 8px; gap: 12px; user-select: text;"><div class=" header-name " style="color: var(--color-text-primary); font-weight: 400; width: 160px; flex-shrink: 0; text-transform: capitalize; overflow-wrap: break-word;">Expires:</div><div class=" header-value " style="display: flex; overflow-wrap: anywhere;">0<devtools-button class="enable-editing inline-button" role="presentation" title="替代标头" style="display: inline-flex; flex-direction: row; vertical-align: middle; opacity: 0; visibility: hidden; transition: opacity 200ms ease 0s; padding-left: 2px;"><button class=" round only-icon small tiny explicit-size " style="margin: 0px; padding: 0px; box-sizing: border-box; --button-has-right-border-radius: calc(1 - var(--override-button-no-right-border-radius, 0)); --button-border-size: 1px; --button-height: 18px; --button-width: 18px; align-items: center; border-radius: 100%; display: inline-flex; font-family: inherit; font-size: 12px; font-weight: 500; height: var(--button-height); line-height: 14px; justify-content: center; width: var(--button-width); white-space: nowrap; background: transparent; border: none; overflow: hidden;"><devtools-icon style="display: inline-block; white-space: nowrap; position: relative; margin: 0px; padding: 0px; box-sizing: border-box; width: unset; height: unset; --icon-color: var(--icon-default);"><div class="icon-basic" style="width: 16px; height: 16px; display: block; -webkit-mask-image: url(&quot;devtools://devtools/bundled/Images/edit.svg&quot;); -webkit-mask-position: center center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 99%; background-color: var(--icon-color, var(--color-background));"></div></devtools-icon><slot style="margin: 0px; padding: 0px; box-sizing: border-box;"></slot></button></devtools-button></div></div></devtools-header-section-row><devtools-header-section-row data-index="4" style="display: block; --override-error-background-color: #d93025;"><div class=" row " style="display: flex; line-height: 20px; padding-left: 8px; gap: 12px; user-select: text;"><div class=" header-name " style="color: var(--color-text-primary); font-weight: 400; width: 160px; flex-shrink: 0; text-transform: capitalize; overflow-wrap: break-word;">Pragma:</div><div class=" header-value " style="display: flex; overflow-wrap: anywhere;">no-cache<devtools-button class="enable-editing inline-button" role="presentation" title="替代标头" style="display: inline-flex; flex-direction: row; vertical-align: middle; opacity: 1; visibility: visible; transition: opacity 200ms ease 0s; padding-left: 2px;"><button class=" round only-icon small tiny explicit-size " style="margin: 0px; padding: 0px; box-sizing: border-box; --button-has-right-border-radius: calc(1 - var(--override-button-no-right-border-radius, 0)); --button-border-size: 1px; --button-height: 18px; --button-width: 18px; align-items: center; border-radius: 100%; display: inline-flex; font-family: inherit; font-size: 12px; font-weight: 500; height: var(--button-height); line-height: 14px; justify-content: center; width: var(--button-width); white-space: nowrap; background: transparent; border: none; overflow: hidden;"><devtools-icon style="display: inline-block; white-space: nowrap; position: relative; margin: 0px; padding: 0px; box-sizing: border-box; width: unset; height: unset; --icon-color: var(--icon-default);"><div class="icon-basic" style="width: 16px; height: 16px; display: block; -webkit-mask-image: url(&quot;devtools://devtools/bundled/Images/edit.svg&quot;); -webkit-mask-position: center center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 99%; background-color: var(--icon-color, var(--color-background));"></div></devtools-icon><slot style="margin: 0px; padding: 0px; box-sizing: border-box;"></slot></button></devtools-button></div></div></devtools-header-section-row><devtools-header-section-row data-index="5" style="display: block; --override-error-background-color: #d93025;"><div class=" row " style="display: flex; line-height: 20px; padding-left: 8px; gap: 12px; user-select: text;"><div class=" header-name " style="color: var(--color-text-primary); font-weight: 400; width: 160px; flex-shrink: 0; text-transform: capitalize; overflow-wrap: break-word;">Server:</div><div class=" header-value " style="display: flex; overflow-wrap: anywhere;">nginx<devtools-button class="enable-editing inline-button" role="presentation" title="替代标头" style="display: inline-flex; flex-direction: row; vertical-align: middle; opacity: 0; visibility: hidden; transition: opacity 200ms ease 0s; padding-left: 2px;"><button class=" round only-icon small tiny explicit-size " style="margin: 0px; padding: 0px; box-sizing: border-box; --button-has-right-border-radius: calc(1 - var(--override-button-no-right-border-radius, 0)); --button-border-size: 1px; --button-height: 18px; --button-width: 18px; align-items: center; border-radius: 100%; display: inline-flex; font-family: inherit; font-size: 12px; font-weight: 500; height: var(--button-height); line-height: 14px; justify-content: center; width: var(--button-width); white-space: nowrap; background: transparent; border: none; overflow: hidden;"><devtools-icon style="display: inline-block; white-space: nowrap; position: relative; margin: 0px; padding: 0px; box-sizing: border-box; width: unset; height: unset; --icon-color: var(--icon-default);"><div class="icon-basic" style="width: 16px; height: 16px; display: block; -webkit-mask-image: url(&quot;devtools://devtools/bundled/Images/edit.svg&quot;); -webkit-mask-position: center center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 99%; background-color: var(--icon-color, var(--color-background));"></div></devtools-icon><slot style="margin: 0px; padding: 0px; box-sizing: border-box;"></slot></button></devtools-button></div></div></devtools-header-section-row><devtools-header-section-row data-index="6" style="display: block; --override-error-background-color: #d93025;"><div class=" row " style="display: flex; line-height: 20px; padding-left: 8px; gap: 12px; user-select: text;"><div class=" header-name " style="color: var(--color-text-primary); font-weight: 400; width: 160px; flex-shrink: 0; text-transform: capitalize; overflow-wrap: break-word;">Vary:</div><div class=" header-value " style="display: flex; overflow-wrap: anywhere;">Access-Control-Request-Headers<devtools-button class="enable-editing inline-button" role="presentation" title="替代标头" style="display: inline-flex; flex-direction: row; vertical-align: middle; opacity: 0; visibility: hidden; transition: opacity 200ms ease 0s; padding-left: 2px;"><button class=" round only-icon small tiny explicit-size " style="margin: 0px; padding: 0px; box-sizing: border-box; --button-has-right-border-radius: calc(1 - var(--override-button-no-right-border-radius, 0)); --button-border-size: 1px; --button-height: 18px; --button-width: 18px; align-items: center; border-radius: 100%; display: inline-flex; font-family: inherit; font-size: 12px; font-weight: 500; height: var(--button-height); line-height: 14px; justify-content: center; width: var(--button-width); white-space: nowrap; background: transparent; border: none; overflow: hidden;"><devtools-icon style="display: inline-block; white-space: nowrap; position: relative; margin: 0px; padding: 0px; box-sizing: border-box; width: unset; height: unset; --icon-color: var(--icon-default);"><div class="icon-basic" style="width: 16px; height: 16px; display: block; -webkit-mask-image: url(&quot;devtools://devtools/bundled/Images/edit.svg&quot;); -webkit-mask-position: center center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 99%; background-color: var(--icon-color, var(--color-background));"></div></devtools-icon><slot style="margin: 0px; padding: 0px; box-sizing: border-box;"></slot></button></devtools-button></div></div></devtools-header-section-row><devtools-header-section-row data-index="7" style="display: block; --override-error-background-color: #d93025;"><div class=" row " style="display: flex; line-height: 20px; padding-left: 8px; gap: 12px; user-select: text;"><div class=" header-name " style="color: var(--color-text-primary); font-weight: 400; width: 160px; flex-shrink: 0; text-transform: capitalize; overflow-wrap: break-word;">Vary:</div><div class=" header-value " style="display: flex; overflow-wrap: anywhere;">Access-Control-Request-Method<devtools-button class="enable-editing inline-button" role="presentation" title="替代标头" style="display: inline-flex; flex-direction: row; vertical-align: middle; opacity: 0; visibility: hidden; transition: opacity 200ms ease 0s; padding-left: 2px;"><button class=" round only-icon small tiny explicit-size " style="margin: 0px; padding: 0px; box-sizing: border-box; --button-has-right-border-radius: calc(1 - var(--override-button-no-right-border-radius, 0)); --button-border-size: 1px; --button-height: 18px; --button-width: 18px; align-items: center; border-radius: 100%; display: inline-flex; font-family: inherit; font-size: 12px; font-weight: 500; height: var(--button-height); line-height: 14px; justify-content: center; width: var(--button-width); white-space: nowrap; background: transparent; border: none; overflow: hidden;"><devtools-icon style="display: inline-block; white-space: nowrap; position: relative; margin: 0px; padding: 0px; box-sizing: border-box; width: unset; height: unset; --icon-color: var(--icon-default);"><div class="icon-basic" style="width: 16px; height: 16px; display: block; -webkit-mask-image: url(&quot;devtools://devtools/bundled/Images/edit.svg&quot;); -webkit-mask-position: center center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 99%; background-color: var(--icon-color, var(--color-background));"></div></devtools-icon><slot style="margin: 0px; padding: 0px; box-sizing: border-box;"></slot></button></devtools-button></div></div></devtools-header-section-row><devtools-header-section-row data-index="8" style="display: block; --override-error-background-color: #d93025;"><div class=" row " style="display: flex; line-height: 20px; padding-left: 8px; gap: 12px; user-select: text;"><div class=" header-name " style="color: var(--color-text-primary); font-weight: 400; width: 160px; flex-shrink: 0; text-transform: capitalize; overflow-wrap: break-word;">Vary:</div><div class=" header-value " style="display: flex; overflow-wrap: anywhere;">Origin<devtools-button class="enable-editing inline-button" role="presentation" title="替代标头" style="display: inline-flex; flex-direction: row; vertical-align: middle; opacity: 0; visibility: hidden; transition: opacity 200ms ease 0s; padding-left: 2px;"><button class=" round only-icon small tiny explicit-size " style="margin: 0px; padding: 0px; box-sizing: border-box; --button-has-right-border-radius: calc(1 - var(--override-button-no-right-border-radius, 0)); --button-border-size: 1px; --button-height: 18px; --button-width: 18px; align-items: center; border-radius: 100%; display: inline-flex; font-family: inherit; font-size: 12px; font-weight: 500; height: var(--button-height); line-height: 14px; justify-content: center; width: var(--button-width); white-space: nowrap; background: transparent; border: none; overflow: hidden;"><devtools-icon style="display: inline-block; white-space: nowrap; position: relative; margin: 0px; padding: 0px; box-sizing: border-box; width: unset; height: unset; --icon-color: var(--icon-default);"><div class="icon-basic" style="width: 16px; height: 16px; display: block; -webkit-mask-image: url(&quot;devtools://devtools/bundled/Images/edit.svg&quot;); -webkit-mask-position: center center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 99%; background-color: var(--icon-color, var(--color-background));"></div></devtools-icon><slot style="margin: 0px; padding: 0px; box-sizing: border-box;"></slot></button></devtools-button></div></div></devtools-header-section-row><devtools-header-section-row data-index="9" style="display: block; --override-error-background-color: #d93025;"><div class=" row " style="display: flex; line-height: 20px; padding-left: 8px; gap: 12px; user-select: text;"><div class=" header-name " style="color: var(--color-text-primary); font-weight: 400; width: 160px; flex-shrink: 0; text-transform: capitalize; overflow-wrap: break-word;">X-Content-Type-Options:</div><div class=" header-value " style="display: flex; overflow-wrap: anywhere;">nosniff<devtools-button class="enable-editing inline-button" role="presentation" title="替代标头" style="display: inline-flex; flex-direction: row; vertical-align: middle; opacity: 0; visibility: hidden; transition: opacity 200ms ease 0s; padding-left: 2px;"><button class=" round only-icon small tiny explicit-size " style="margin: 0px; padding: 0px; box-sizing: border-box; --button-has-right-border-radius: calc(1 - var(--override-button-no-right-border-radius, 0)); --button-border-size: 1px; --button-height: 18px; --button-width: 18px; align-items: center; border-radius: 100%; display: inline-flex; font-family: inherit; font-size: 12px; font-weight: 500; height: var(--button-height); line-height: 14px; justify-content: center; width: var(--button-width); white-space: nowrap; background: transparent; border: none; overflow: hidden;"><devtools-icon style="display: inline-block; white-space: nowrap; position: relative; margin: 0px; padding: 0px; box-sizing: border-box; width: unset; height: unset; --icon-color: var(--icon-default);"><div class="icon-basic" style="width: 16px; height: 16px; display: block; -webkit-mask-image: url(&quot;devtools://devtools/bundled/Images/edit.svg&quot;); -webkit-mask-position: center center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 99%; background-color: var(--icon-color, var(--color-background));"></div></devtools-icon><slot style="margin: 0px; padding: 0px; box-sizing: border-box;"></slot></button></devtools-button></div></div></devtools-header-section-row><devtools-header-section-row data-index="10" style="display: block; --override-error-background-color: #d93025;"><div class=" row " style="display: flex; line-height: 20px; padding-left: 8px; gap: 12px; user-select: text;"><div class=" header-name " style="color: var(--color-text-primary); font-weight: 400; width: 160px; flex-shrink: 0; text-transform: capitalize; overflow-wrap: break-word;">X-Frame-Options:</div><div class=" header-value " style="display: flex; overflow-wrap: anywhere;">DENY<devtools-button class="enable-editing inline-button" role="presentation" title="替代标头" style="display: inline-flex; flex-direction: row; vertical-align: middle; opacity: 0; visibility: hidden; transition: opacity 200ms ease 0s; padding-left: 2px;"><button class=" round only-icon small tiny explicit-size " style="margin: 0px; padding: 0px; box-sizing: border-box; --button-has-right-border-radius: calc(1 - var(--override-button-no-right-border-radius, 0)); --button-border-size: 1px; --button-height: 18px; --button-width: 18px; align-items: center; border-radius: 100%; display: inline-flex; font-family: inherit; font-size: 12px; font-weight: 500; height: var(--button-height); line-height: 14px; justify-content: center; width: var(--button-width); white-space: nowrap; background: transparent; border: none; overflow: hidden;"><devtools-icon style="display: inline-block; white-space: nowrap; position: relative; margin: 0px; padding: 0px; box-sizing: border-box; width: unset; height: unset; --icon-color: var(--icon-default);"><div class="icon-basic" style="width: 16px; height: 16px; display: block; -webkit-mask-image: url(&quot;devtools://devtools/bundled/Images/edit.svg&quot;); -webkit-mask-position: center center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 99%; background-color: var(--icon-color, var(--color-background));"></div></devtools-icon><slot style="margin: 0px; padding: 0px; box-sizing: border-box;"></slot></button></devtools-button></div></div></devtools-header-section-row><devtools-header-section-row data-index="11" style="display: block; --override-error-background-color: #d93025; margin-bottom: 10px;"><div class=" row " style="display: flex; line-height: 20px; padding-left: 8px; gap: 12px; user-select: text;"><div class=" header-name " style="color: var(--color-text-primary); font-weight: 400; width: 160px; flex-shrink: 0; text-transform: capitalize; overflow-wrap: break-word;">X-Xss-Protection:</div><div class=" header-value " style="display: flex; overflow-wrap: anywhere;">1; mode=block<devtools-button class="enable-editing inline-button" role="presentation" title="替代标头" style="display: inline-flex; flex-direction: row; vertical-align: middle; opacity: 0; visibility: hidden; transition: opacity 200ms ease 0s; padding-left: 2px;"><button class=" round only-icon small tiny explicit-size " style="margin: 0px; padding: 0px; box-sizing: border-box; --button-has-right-border-radius: calc(1 - var(--override-button-no-right-border-radius, 0)); --button-border-size: 1px; --button-height: 18px; --button-width: 18px; align-items: center; border-radius: 100%; display: inline-flex; font-family: inherit; font-size: 12px; font-weight: 500; height: var(--button-height); line-height: 14px; justify-content: center; width: var(--button-width); white-space: nowrap; background: transparent; border: none; overflow: hidden;"><devtools-icon style="display: inline-block; white-space: nowrap; position: relative; margin: 0px; padding: 0px; box-sizing: border-box; width: unset; height: unset; --icon-color: var(--icon-default);"><div class="icon-basic" style="width: 16px; height: 16px; display: block; -webkit-mask-image: url(&quot;devtools://devtools/bundled/Images/edit.svg&quot;); -webkit-mask-position: center center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 99%; background-color: var(--icon-color, var(--color-background));"></div></devtools-icon><slot style="margin: 0px; padding: 0px; box-sizing: border-box;"></slot></button></devtools-button></div></div></devtools-header-section-row></devtools-response-header-section></details>
+</blockquote>
+</li>
+<li><p><strong>传输HTTP响应</strong>： 服务器将生成的HTTP响应通过之前建立的TCP连接传输回浏览器。</p>
+</li>
+<li><p><strong>浏览器接收响应</strong>： 浏览器接收到服务器传回的HTTP响应。它会根据响应中的信息进行处理，例如解析HTML内容、渲染页面、执行JavaScript代码等。</p>
+</li>
+<li><p><strong>关闭连接</strong>： 一旦响应传输完毕，浏览器与服务器之间的TCP连接会被关闭。这一步确保连接资源被释放。</p>
+</li>
+</ol>
+<p>总的来说，这个过程涉及了多个关键步骤，包括URL解析、DNS解析、建立TCP连接、发起HTTP请求、服务器处理、应用服务处理、生成HTTP响应、传输响应、浏览器处理等，最终将用户输入的URL转化为浏览器上可见的网页内容。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" class="print-no-link">#面试问题</a>
+      
+        <a href="/tags/%E7%BD%91%E7%BB%9C/" class="print-no-link">#网络</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>从输入URL到页面展示发生了什么？</div>
+      <div>https://cason.work/2023/08/10/从输入URL到页面展示发生了什么？/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cason Mo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年8月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/08/15/Github-action%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2springboot-vue%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE/" title="Github action持续部署springboot+vue前后端分离项目">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Github action持续部署springboot+vue前后端分离项目</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/20/obsidian-git-ios-%E5%A4%9A%E5%B9%B3%E5%8F%B0%E5%90%8C%E6%AD%A5/" title="obsidian git ios 多平台同步">
+                        <span class="hidden-mobile">obsidian git ios 多平台同步</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"CasonMo/comment-utterances","repo-id":"R_kgDOHS6Rzw","category":"Announcements","category-id":"DIC_kwDOHS6Rz84Cegpi","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN","theme":"preferred_color_scheme"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022147183号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

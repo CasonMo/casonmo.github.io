@@ -1,0 +1,812 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cason Mo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Translation最好用过的翻译工具  RoboPOJOGeneratorIntelliJ Idea 和 Android Studio 的插件，用于将 JSON 转换为 POJO。 从 JSON 生成 Java、Java Records 和 Kotlin 的 POJO 文件：GSON、FastJSON、AutoValue（GSON）、Logan Square、Jackson、Lombok、Ja">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实用的 IntelliJ 插件">
+<meta property="og:url" content="https://cason.work/2024/04/22/%E5%AE%9E%E7%94%A8%E7%9A%84-IntelliJ-%E6%8F%92%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Blog|CasonMo-Java后端知识学习经验分享">
+<meta property="og:description" content="Translation最好用过的翻译工具  RoboPOJOGeneratorIntelliJ Idea 和 Android Studio 的插件，用于将 JSON 转换为 POJO。 从 JSON 生成 Java、Java Records 和 Kotlin 的 POJO 文件：GSON、FastJSON、AutoValue（GSON）、Logan Square、Jackson、Lombok、Ja">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422111533246.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112843612.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422111653856.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422111717408.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422111856198.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112011976.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112110446.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112201974.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112321393.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112434638.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112524955.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112711489.png">
+<meta property="article:published_time" content="2024-04-22T03:13:42.000Z">
+<meta property="article:modified_time" content="2025-02-07T02:09:54.676Z">
+<meta property="article:author" content="Cason Mo">
+<meta property="article:tag" content="IntelliJ">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422111533246.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+    <meta name="google-site-verification" content="f-Zx1s0QlBYDQAEQEaqHl-vpTbRmq-FDQ8IRLOTat6c" />
+  
+  <title>实用的 IntelliJ 插件 - Blog|CasonMo-Java后端知识学习经验分享</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"cason.work","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mrkAghx9eMrolWwrYAdkz1JY-MdYXbMMI","app_key":"ySRiT9dGUKi9GsTq8uKjf4kc","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Blog|CasonMo-Java后端知识学习经验分享" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cason Mo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://tool.cason.work/" target="_self">
+                <i class="iconfont icon-briefcase"></i>
+                <span>开发工具集合</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span></span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="实用的 IntelliJ 插件"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-22 11:13" pubdate>
+          2024年4月22日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          451 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          4 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">实用的 IntelliJ 插件</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="Translation"><a href="#Translation" class="headerlink" title="Translation"></a>Translation</h2><p>最好用过的翻译工具</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422111533246.png" srcset="/img/loading.gif" lazyload alt="image-20240422111533246"></p>
+<h2 id="RoboPOJOGenerator"><a href="#RoboPOJOGenerator" class="headerlink" title="RoboPOJOGenerator"></a>RoboPOJOGenerator</h2><p>IntelliJ Idea 和 Android Studio 的插件，用于将 JSON 转换为 POJO。 从 JSON 生成 Java、Java Records 和 Kotlin 的 POJO 文件：GSON、FastJSON、AutoValue（GSON）、Logan Square、Jackson、Lombok、Jakarta JSON Binding、空注解模板。支持：原始类型、多个内部 JSONArray。</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112843612.png" srcset="/img/loading.gif" lazyload alt="image-20240422112843612"></p>
+<h2 id="Java-Bean-to-Json"><a href="#Java-Bean-to-Json" class="headerlink" title="Java Bean to Json"></a>Java Bean to Json</h2><p> Java类对象转换成一个 json</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422111653856.png" srcset="/img/loading.gif" lazyload alt="image-20240422111653856"></p>
+<h2 id="SequenceDiagram"><a href="#SequenceDiagram" class="headerlink" title="SequenceDiagram"></a>SequenceDiagram</h2><p> Java类直接生成时序图</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422111717408.png" srcset="/img/loading.gif" lazyload alt="image-20240422111717408"></p>
+<h2 id="CamelCase"><a href="#CamelCase" class="headerlink" title="CamelCase"></a>CamelCase</h2><p>可以轻松地在kebab-case、SNAKE_CASE、PascalCase、camelCase、snake_case或者space case之间切换。查看编辑菜单或使用 ⇧ + ⌥ + U &#x2F; Shift + Alt + U。</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422111856198.png" srcset="/img/loading.gif" lazyload alt="image-20240422111856198"></p>
+<h2 id="GenerateAllSetter"><a href="#GenerateAllSetter" class="headerlink" title="GenerateAllSetter"></a>GenerateAllSetter</h2><p>一键调用一个对象的所有的set方法,get方法等，在方法上生成两个对象的转换</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112011976.png" srcset="/img/loading.gif" lazyload alt="image-20240422112011976"></p>
+<h2 id="Key-Promoter-X"><a href="#Key-Promoter-X" class="headerlink" title="Key Promoter X"></a>Key Promoter X</h2><p>Key Promoter X能帮助你在工作时学习必要的快捷键。当你在IDE内使用鼠标点击按钮时，Key Promoter X会显示你应该使用的键盘快捷键。这为学习如何用键盘按键替换繁琐的鼠标操作提供了一种简单的方法，并有助于过渡到更快速、无需鼠标的开发方式。Key Promoter X工具窗口会显示你最常使用的鼠标操作的清单，并直接提供可替代的快捷键。对于没有快捷键的按钮，Key Promoter X会提示你直接创建一个快捷键。</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112110446.png" srcset="/img/loading.gif" lazyload alt="image-20240422112110446"></p>
+<h2 id="LeetCode-Editor"><a href="#LeetCode-Editor" class="headerlink" title="LeetCode Editor"></a>LeetCode Editor</h2><p>支持leetcode.com和leetcode.cn，可以测试和提交问题</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112201974.png" srcset="/img/loading.gif" lazyload alt="image-20240422112201974"></p>
+<h2 id="Maven-Helper"><a href="#Maven-Helper" class="headerlink" title="Maven Helper"></a>Maven Helper</h2><p>一个必备的 Maven 工作插件。 </p>
+<ul>
+<li>分析和排除冲突依赖的简便方式。 </li>
+<li>在包含当前文件的模块或根模块上运行&#x2F;调试 Maven 目标的操作。 </li>
+<li>在当前 Maven 模块路径打开终端的操作。 运行&#x2F;调试当前测试文件的操作。</li>
+</ul>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112321393.png" srcset="/img/loading.gif" lazyload alt="image-20240422112321393"></p>
+<h2 id="MyBatis-Log-Free"><a href="#MyBatis-Log-Free" class="headerlink" title="MyBatis Log Free"></a>MyBatis Log Free</h2><p>将MyBatis的SQL日志还原为原始的完整可执行SQL。</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112434638.png" srcset="/img/loading.gif" lazyload alt="image-20240422112434638"></p>
+<h2 id="MyBatisX"><a href="#MyBatisX" class="headerlink" title="MyBatisX"></a>MyBatisX</h2><p>MybatisX插件功能：</p>
+<ul>
+<li>Mapper和XML之间可以相互跳转</li>
+<li>提示MyBatis.xml和Mapper.xml文件</li>
+<li>Mapper和XML支持像JPA一样的自动提示（参考MybatisCodeHelperPro）</li>
+<li>集成MyBatis Generator GUI（从免费MyBatis插件复制）</li>
+</ul>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112524955.png" srcset="/img/loading.gif" lazyload alt="image-20240422112524955"></p>
+<h2 id="Rainbow-Brackets"><a href="#Rainbow-Brackets" class="headerlink" title="Rainbow Brackets"></a>Rainbow Brackets</h2><p>彩虹色的花括号</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240422112711489.png" srcset="/img/loading.gif" lazyload alt="image-20240422112711489"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/IntelliJ/" class="print-no-link">#IntelliJ</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>实用的 IntelliJ 插件</div>
+      <div>https://cason.work/2024/04/22/实用的-IntelliJ-插件/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cason Mo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/04/29/Springboot-Redisson%E5%AE%9E%E7%8E%B0%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="Springboot-Redisson实现延迟消息队列">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Springboot-Redisson实现延迟消息队列</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/15/%E8%85%BE%E8%AE%AF%E4%BA%91%E5%A4%A7%E6%96%87%E4%BB%B6%E8%BF%81%E7%A7%BB%E6%95%99%E7%A8%8B-%E5%86%85%E7%BD%91%E4%BA%92%E8%81%94-scp/" title="腾讯云大文件迁移教程-内网互联+scp">
+                        <span class="hidden-mobile">腾讯云大文件迁移教程-内网互联+scp</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"CasonMo/comment-utterances","repo-id":"R_kgDOHS6Rzw","category":"Announcements","category-id":"DIC_kwDOHS6Rz84Cegpi","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN","theme":"preferred_color_scheme"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022147183号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

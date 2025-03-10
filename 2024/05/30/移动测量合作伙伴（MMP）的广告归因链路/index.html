@@ -1,0 +1,856 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cason Mo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="移动测量合作伙伴（MMP）的广告归因链路移动测量合作伙伴（Mobile Measurement Partner，简称MMP）是一类专门提供移动应用广告归因和分析服务的第三方平台。MMP的主要功能是帮助广告主和应用开发者跟踪和分析广告效果，确定用户的来源，从而优化广告投放策略，提高广告投放的投资回报率（ROI）。广告归因是MMP的核心功能之一，通过收集和分析用户的点击和安装数据，确定用户是通过哪个广">
+<meta property="og:type" content="article">
+<meta property="og:title" content="移动测量合作伙伴（MMP）的广告归因链路">
+<meta property="og:url" content="https://cason.work/2024/05/30/%E7%A7%BB%E5%8A%A8%E6%B5%8B%E9%87%8F%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%EF%BC%88MMP%EF%BC%89%E7%9A%84%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E9%93%BE%E8%B7%AF/index.html">
+<meta property="og:site_name" content="Blog|CasonMo-Java后端知识学习经验分享">
+<meta property="og:description" content="移动测量合作伙伴（MMP）的广告归因链路移动测量合作伙伴（Mobile Measurement Partner，简称MMP）是一类专门提供移动应用广告归因和分析服务的第三方平台。MMP的主要功能是帮助广告主和应用开发者跟踪和分析广告效果，确定用户的来源，从而优化广告投放策略，提高广告投放的投资回报率（ROI）。广告归因是MMP的核心功能之一，通过收集和分析用户的点击和安装数据，确定用户是通过哪个广">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240530145119242.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240530145130921.png">
+<meta property="article:published_time" content="2024-05-30T07:02:22.000Z">
+<meta property="article:modified_time" content="2025-02-07T02:09:54.678Z">
+<meta property="article:author" content="Cason Mo">
+<meta property="article:tag" content="广告">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240530145119242.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+    <meta name="google-site-verification" content="f-Zx1s0QlBYDQAEQEaqHl-vpTbRmq-FDQ8IRLOTat6c" />
+  
+  <title>移动测量合作伙伴（MMP）的广告归因链路 - Blog|CasonMo-Java后端知识学习经验分享</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"cason.work","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mrkAghx9eMrolWwrYAdkz1JY-MdYXbMMI","app_key":"ySRiT9dGUKi9GsTq8uKjf4kc","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Blog|CasonMo-Java后端知识学习经验分享" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cason Mo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://tool.cason.work/" target="_self">
+                <i class="iconfont icon-briefcase"></i>
+                <span>开发工具集合</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span></span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="移动测量合作伙伴（MMP）的广告归因链路"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-30 15:02" pubdate>
+          2024年5月30日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">移动测量合作伙伴（MMP）的广告归因链路</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="移动测量合作伙伴（MMP）的广告归因链路"><a href="#移动测量合作伙伴（MMP）的广告归因链路" class="headerlink" title="移动测量合作伙伴（MMP）的广告归因链路"></a>移动测量合作伙伴（MMP）的广告归因链路</h3><p>移动测量合作伙伴（Mobile Measurement Partner，简称MMP）是一类专门提供移动应用广告归因和分析服务的第三方平台。MMP的主要功能是帮助广告主和应用开发者跟踪和分析广告效果，确定用户的来源，从而优化广告投放策略，提高广告投放的投资回报率（ROI）。广告归因是MMP的核心功能之一，通过收集和分析用户的点击和安装数据，确定用户是通过哪个广告平台、广告活动甚至具体的广告创意下载并安装了应用。</p>
+<h4 id="无链接广告的归因链路"><a href="#无链接广告的归因链路" class="headerlink" title="无链接广告的归因链路"></a>无链接广告的归因链路</h4><p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240530145119242.png" srcset="/img/loading.gif" lazyload alt="image-20240530145119242"></p>
+<p>无链接广告通常指那些不包含深度链接或特定归因链接的广告。这类广告的归因依赖于设备标识符和时间窗口。以下是无链接广告的归因链路详细过程：</p>
+<ol>
+<li><strong>广告展示与点击</strong>：<ul>
+<li>用户在广告平台（如Google、Facebook）上看到广告并点击。</li>
+<li>广告平台记录下点击事件，包括设备ID（如IDFA、GAID）和点击时间。</li>
+<li>为了能够进行准确的归因，广告平台（如Google、Facebook）在用户点击广告时，会将点击数据（如点击时间、设备ID等）发送到MMP。</li>
+</ul>
+</li>
+<li><strong>应用下载与安装</strong>：<ul>
+<li>用户被引导到应用商店，下载并安装应用。</li>
+</ul>
+</li>
+<li><strong>应用激活与MMP SDK的作用</strong>：<ul>
+<li>用户首次打开应用时，应用内集成的MMP SDK（如Adjust、AppsFlyer）会触发一次激活事件。</li>
+<li>SDK收集设备标识符、安装时间等信息，并发送到MMP服务器。</li>
+</ul>
+</li>
+<li><strong>广告归因处理</strong>：<ul>
+<li>MMP服务器将接收到的激活数据与之前从广告平台获取的点击数据进行匹配。</li>
+<li>通过时间窗口（通常为点击后的24至48小时）和设备标识符，MMP确定用户的安装行为与哪个点击事件相关联。</li>
+</ul>
+</li>
+<li><strong>归因报告</strong>：<ul>
+<li>MMP回传数据告知是通过哪个广告平台的广告安装了应用。</li>
+</ul>
+</li>
+</ol>
+<p>这种归因方法依赖于设备标识符和时间窗口来推断用户行为，可能会因设备ID的变化或其他因素影响归因准确性。</p>
+<h4 id="有链接广告的归因链路"><a href="#有链接广告的归因链路" class="headerlink" title="有链接广告的归因链路"></a>有链接广告的归因链路</h4><p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240530145130921.png" srcset="/img/loading.gif" lazyload alt="image-20240530145130921"></p>
+<p>有链接广告包含深度链接或特定的归因链接，例如Branch链接或AppsFlyer Onelink。这些链接能直接追踪用户的点击行为，使归因过程更为精确。以下是有链接广告的归因链路详细过程：</p>
+<ol>
+<li><strong>广告展示与点击</strong>：<ul>
+<li>用户在广告平台上看到包含归因链接的广告（如Branch链接或AppsFlyer Onelink）。</li>
+<li>用户点击广告链接。</li>
+</ul>
+</li>
+<li><strong>链接重定向与归因信息收集</strong>：<ul>
+<li>点击广告链接后，用户会被重定向到归因平台的中间页面。</li>
+<li>中间页面收集用户点击信息，包括设备ID、点击时间、广告来源等。</li>
+</ul>
+</li>
+<li><strong>重定向到应用商店</strong>：<ul>
+<li>收集完必要信息后，用户被重定向到应用商店的应用下载页面。</li>
+</ul>
+</li>
+<li><strong>应用下载与安装</strong>：<ul>
+<li>用户下载并安装应用。</li>
+</ul>
+</li>
+<li><strong>应用激活与SDK的作用</strong>：<ul>
+<li>用户首次打开应用时，应用内集成的归因平台SDK（如Branch SDK、AppsFlyer SDK）会触发一次激活事件。</li>
+<li>SDK将设备标识符和安装时间等信息发送到归因平台服务器。</li>
+</ul>
+</li>
+<li><strong>归因匹配</strong>：<ul>
+<li>归因平台服务器将激活事件与之前收集的点击数据进行匹配。</li>
+<li>由于链接中包含了具体的归因信息，归因平台能够直接将用户安装归因到特定的广告点击。</li>
+</ul>
+</li>
+<li><strong>归因报告</strong>：<ul>
+<li>归因平台回调告知是通过哪个广告平台和具体的广告链接下载并安装了应用。</li>
+</ul>
+</li>
+</ol>
+<p>有链接广告的归因方法由于使用了明确的点击信息和广告来源，归因过程更加直接和精确。</p>
+<h4 id="无链接广告与有链接广告的区别"><a href="#无链接广告与有链接广告的区别" class="headerlink" title="无链接广告与有链接广告的区别"></a>无链接广告与有链接广告的区别</h4><ol>
+<li><strong>归因信息收集</strong>：<ul>
+<li><strong>无链接广告</strong>：依赖于设备标识符和时间窗口进行归因，需要更多的匹配步骤。</li>
+<li><strong>有链接广告</strong>：通过深度链接或归因链接直接收集点击信息，归因过程更加直接和精确。</li>
+</ul>
+</li>
+<li><strong>中间页面重定向</strong>：<ul>
+<li><strong>无链接广告</strong>：用户点击广告后直接跳转到应用商店，归因信息通过后台匹配。</li>
+<li><strong>有链接广告</strong>：用户点击广告后首先重定向到归因平台的中间页面，收集归因信息后再跳转到应用商店。</li>
+</ul>
+</li>
+<li><strong>准确性</strong>：<ul>
+<li><strong>无链接广告</strong>：归因准确性可能受限于设备标识符的变化和点击后的时间窗口。</li>
+<li><strong>有链接广告</strong>：归因更准确，因为链接中包含了明确的点击信息和广告来源。</li>
+</ul>
+</li>
+<li><strong>归因速度</strong>：<ul>
+<li><strong>无链接广告</strong>：归因过程可能需要更多时间来匹配和确认。</li>
+<li><strong>有链接广告</strong>：归因过程更加迅速，因为点击信息在链接中已经明确。</li>
+</ul>
+</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%B9%BF%E5%91%8A/" class="print-no-link">#广告</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>移动测量合作伙伴（MMP）的广告归因链路</div>
+      <div>https://cason.work/2024/05/30/移动测量合作伙伴（MMP）的广告归因链路/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cason Mo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/01/Tunnelblick%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87Google-Authenticator-Token-%E8%B0%B7%E6%AD%8C%E9%AA%8C%E8%AF%81%E5%99%A8%E9%AA%8C%E8%AF%81%E7%A0%81/" title="Tunnelblick身份验证自动通过Google Authenticator Token(谷歌验证器验证码)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Tunnelblick身份验证自动通过Google Authenticator Token(谷歌验证器验证码)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/29/Springboot-Redisson%E5%AE%9E%E7%8E%B0%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="Springboot-Redisson实现延迟消息队列">
+                        <span class="hidden-mobile">Springboot-Redisson实现延迟消息队列</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"CasonMo/comment-utterances","repo-id":"R_kgDOHS6Rzw","category":"Announcements","category-id":"DIC_kwDOHS6Rz84Cegpi","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN","theme":"preferred_color_scheme"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022147183号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

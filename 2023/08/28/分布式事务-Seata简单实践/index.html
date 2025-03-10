@@ -1,0 +1,867 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cason Mo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="当涉及多个不同的计算机或系统之间的操作时，分布式事务是确保这些操作在一组相关的事务中保持一致性和隔离性的机制。在传统的单机事务中，可以使用数据库的事务来确保操作的一致性和隔离性。然而，在分布式系统中，数据分布在多个节点上，可能涉及网络问题、节点故障等，使得保持一致性变得更加复杂。分布式事务需要解决以下挑战：  原子性（Atomicity）：分布式事务要么全部成功，要么全部失败，不能只完成部分操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式事务-Seata简单实践">
+<meta property="og:url" content="https://cason.work/2023/08/28/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-Seata%E7%AE%80%E5%8D%95%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="Blog|CasonMo-Java后端知识学习经验分享">
+<meta property="og:description" content="当涉及多个不同的计算机或系统之间的操作时，分布式事务是确保这些操作在一组相关的事务中保持一致性和隔离性的机制。在传统的单机事务中，可以使用数据库的事务来确保操作的一致性和隔离性。然而，在分布式系统中，数据分布在多个节点上，可能涉及网络问题、节点故障等，使得保持一致性变得更加复杂。分布式事务需要解决以下挑战：  原子性（Atomicity）：分布式事务要么全部成功，要么全部失败，不能只完成部分操作。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202308282051746.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202308282051341.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202308311843476.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202308311843190.png">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202309011026520.png">
+<meta property="article:published_time" content="2023-08-28T12:19:45.000Z">
+<meta property="article:modified_time" content="2025-02-07T02:09:54.675Z">
+<meta property="article:author" content="Cason Mo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202308282051746.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+    <meta name="google-site-verification" content="f-Zx1s0QlBYDQAEQEaqHl-vpTbRmq-FDQ8IRLOTat6c" />
+  
+  <title>分布式事务-Seata简单实践 - Blog|CasonMo-Java后端知识学习经验分享</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"cason.work","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mrkAghx9eMrolWwrYAdkz1JY-MdYXbMMI","app_key":"ySRiT9dGUKi9GsTq8uKjf4kc","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Blog|CasonMo-Java后端知识学习经验分享" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cason Mo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://tool.cason.work/" target="_self">
+                <i class="iconfont icon-briefcase"></i>
+                <span>开发工具集合</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span></span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="分布式事务-Seata简单实践"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-08-28 20:19" pubdate>
+          2023年8月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">分布式事务-Seata简单实践</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>当涉及多个不同的计算机或系统之间的操作时，分布式事务是确保这些操作在一组相关的事务中保持一致性和隔离性的机制。在传统的单机事务中，可以使用数据库的事务来确保操作的一致性和隔离性。然而，在分布式系统中，数据分布在多个节点上，可能涉及网络问题、节点故障等，使得保持一致性变得更加复杂。分布式事务需要解决以下挑战：</p>
+<ol>
+<li><strong>原子性（Atomicity）</strong>：分布式事务要么全部成功，要么全部失败，不能只完成部分操作。这意味着如果一个操作失败，所有涉及的操作都必须回滚。</li>
+<li><strong>一致性（Consistency）</strong>：事务开始前和结束后，系统必须保持一致状态。即使在分布式环境中，事务也必须确保数据不会进入不一致状态。</li>
+<li><strong>隔离性（Isolation）</strong>：在事务执行过程中，各个事务之间应该相互隔离，以避免并发执行导致的问题，例如脏读、不可重复读和幻读。</li>
+<li><strong>持久性（Durability）</strong>：一旦事务提交，其结果应该持久保存，即使发生系统故障也不应丢失。</li>
+</ol>
+<p>分布式事务模式</p>
+<ol>
+<li><strong>XA模式</strong>： XA是一种标准的分布式事务协议，它在两阶段提交（2PC）的基础上实现了分布式事务的ACID属性。XA涉及两个角色：事务管理器（TM）和资源管理器（RM）。在第一阶段，TM要求所有RM预提交事务。在第二阶段，TM发送全局提交或回滚命令，RM执行对应操作。虽然XA确保了一致性，但它的缺点是可能会导致阻塞，尤其是在网络故障或参与者故障的情况下。</li>
+<li><strong>AT模式（Automatic Transaction）</strong>： AT模式是一种基于数据库的分布式事务解决方案，通过自动化事务的提交和回滚来实现一致性。每个参与者节点在执行事务之前会先尝试执行操作，然后记录操作产生的影响。如果所有参与者的操作都成功，那么事务就会被自动提交。如果有任何一个参与者的操作失败，整个事务会被回滚。AT模式避免了2PC的阻塞问题，但可能导致部分失败问题。</li>
+<li><strong>TCC模式（Try-Confirm-Cancel）</strong>： TCC模式通过将一个大事务分解为三个阶段来实现分布式事务：尝试（Try）、确认（Confirm）和取消（Cancel）。在尝试阶段，所有参与者都会尝试执行操作。在确认阶段，如果所有参与者的操作都成功，就会进行确认操作。如果任何操作失败，就会进行取消操作。TCC模式提供了更细粒度的控制，但需要在代码中显式编写确认和取消逻辑。</li>
+<li><strong>Saga模式</strong>： Saga模式将一个大事务拆分为一系列小步骤，每个步骤都是一个原子操作。每个步骤都有一个与之关联的补偿操作，用于撤销该步骤的影响。如果一个步骤失败，就会触发其关联的补偿操作，将系统状态回滚到一致状态。Saga模式适用于分布式环境中的长时间事务，但需要开发人员仔细设计补偿逻辑。</li>
+</ol>
+<h2 id="Seata"><a href="#Seata" class="headerlink" title="Seata"></a>Seata</h2><h3 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h3><ul>
+<li><p>下载</p>
+<p>点击链接进去下载：<a target="_blank" rel="noopener" href="https://seata.io/zh-cn/blog/download.html">https://seata.io/zh-cn/blog/download.html</a></p>
+<p>本文的seata版本为1.7.0</p>
+</li>
+<li><p>配置</p>
+<ul>
+<li><p>参考conf&#x2F;application.example.yml修改conf&#x2F;application.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">7091</span><br><br><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">seata-server</span><br><br><span class="hljs-attr">logging:</span><br>  <span class="hljs-attr">config:</span> <span class="hljs-string">classpath:logback-spring.xml</span><br>  <span class="hljs-attr">file:</span><br>    <span class="hljs-attr">path:</span> <span class="hljs-string">$&#123;user.home&#125;/logs/seata</span><br><br><span class="hljs-attr">console:</span><br>  <span class="hljs-attr">user:</span><br>    <span class="hljs-attr">username:</span> <span class="hljs-string">seata</span><br>    <span class="hljs-attr">password:</span> <span class="hljs-string">seata</span><br><span class="hljs-attr">seata:</span><br>  <span class="hljs-attr">config:</span><br>    <span class="hljs-comment"># support: nacos, consul, apollo, zk, etcd3</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">nacos</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span><br>      <span class="hljs-attr">namespace:</span><br>      <span class="hljs-attr">group:</span> <span class="hljs-string">SEATA_GROUP</span><br>      <span class="hljs-attr">username:</span> <span class="hljs-string">nacos</span><br>      <span class="hljs-attr">password:</span> <span class="hljs-string">nacos</span><br>      <span class="hljs-attr">context-path:</span><br>      <span class="hljs-comment">##if use MSE Nacos with auth, mutex with username/password attribute</span><br>      <span class="hljs-comment">#access-key:</span><br>      <span class="hljs-comment">#secret-key:</span><br>      <span class="hljs-attr">data-id:</span> <span class="hljs-string">seataServer.properties</span><br>    <span class="hljs-attr">consul:</span><br>  <span class="hljs-attr">registry:</span><br>    <span class="hljs-comment"># support: nacos, eureka, redis, zk, consul, etcd3, sofa</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">nacos</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">application:</span> <span class="hljs-string">seata-server</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span><br>      <span class="hljs-attr">group:</span> <span class="hljs-string">SEATA_GROUP</span><br>      <span class="hljs-attr">namespace:</span><br>      <span class="hljs-attr">cluster:</span> <span class="hljs-string">default</span><br>      <span class="hljs-attr">username:</span> <span class="hljs-string">nacos</span><br>      <span class="hljs-attr">password:</span> <span class="hljs-string">nacos</span><br>      <span class="hljs-attr">context-path:</span><br>  <span class="hljs-attr">store:</span><br>    <span class="hljs-comment"># support: file 、 db 、 redis</span><br>    <span class="hljs-attr">mode:</span> <span class="hljs-string">db</span><br>    <span class="hljs-attr">db:</span><br>      <span class="hljs-attr">datasource:</span> <span class="hljs-string">druid</span><br>      <span class="hljs-attr">db-type:</span> <span class="hljs-string">mysql</span><br>      <span class="hljs-attr">driver-class-name:</span> <span class="hljs-string">com.mysql.jdbc.Driver</span><br>      <span class="hljs-attr">url:</span> <span class="hljs-string">jdbc:mysql://127.0.0.1:3306/seata?rewriteBatchedStatements=true</span><br>      <span class="hljs-attr">user:</span> <span class="hljs-string">root</span><br>      <span class="hljs-attr">password:</span> <span class="hljs-string">root</span><br>      <span class="hljs-attr">min-conn:</span> <span class="hljs-number">10</span><br>      <span class="hljs-attr">max-conn:</span> <span class="hljs-number">100</span><br>      <span class="hljs-attr">global-table:</span> <span class="hljs-string">global_table</span><br>      <span class="hljs-attr">branch-table:</span> <span class="hljs-string">branch_table</span><br>      <span class="hljs-attr">lock-table:</span> <span class="hljs-string">lock_table</span><br>      <span class="hljs-attr">distributed-lock-table:</span> <span class="hljs-string">distributed_lock</span><br>      <span class="hljs-attr">query-limit:</span> <span class="hljs-number">1000</span><br>      <span class="hljs-attr">max-wait:</span> <span class="hljs-number">5000</span><br><span class="hljs-comment">#  server:</span><br><span class="hljs-comment">#    service-port: 8091 #If not configured, the default is &#x27;$&#123;server.port&#125; + 1000&#x27;</span><br>  <span class="hljs-attr">security:</span><br>    <span class="hljs-attr">secretKey:</span> <span class="hljs-string">SeataSecretKey0c382ef121d778043159209298fd40bf3850a017</span><br>    <span class="hljs-attr">tokenValidityInMilliseconds:</span> <span class="hljs-number">1800000</span><br>    <span class="hljs-attr">ignore:</span><br>      <span class="hljs-attr">urls:</span> <span class="hljs-string">/,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.jpeg,/**/*.ico,/api/v1/auth/login</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>mysql数据库创建seata库并执行&#x2F;seata&#x2F;script&#x2F;server&#x2F;db&#x2F;mysql.sql</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs mysql">-- -------------------------------- The script used when storeMode is &#x27;db&#x27; --------------------------------<br>-- the table to store GlobalSession data<br>CREATE TABLE IF NOT EXISTS `global_table`<br>(<br>    `xid`                       VARCHAR(128) NOT NULL,<br>    `transaction_id`            BIGINT,<br>    `status`                    TINYINT      NOT NULL,<br>    `application_id`            VARCHAR(32),<br>    `transaction_service_group` VARCHAR(32),<br>    `transaction_name`          VARCHAR(128),<br>    `timeout`                   INT,<br>    `begin_time`                BIGINT,<br>    `application_data`          VARCHAR(2000),<br>    `gmt_create`                DATETIME,<br>    `gmt_modified`              DATETIME,<br>    PRIMARY KEY (`xid`),<br>    KEY `idx_status_gmt_modified` (`status` , `gmt_modified`),<br>    KEY `idx_transaction_id` (`transaction_id`)<br>) ENGINE = InnoDB<br>  DEFAULT CHARSET = utf8mb4;<br><br>-- the table to store BranchSession data<br>CREATE TABLE IF NOT EXISTS `branch_table`<br>(<br>    `branch_id`         BIGINT       NOT NULL,<br>    `xid`               VARCHAR(128) NOT NULL,<br>    `transaction_id`    BIGINT,<br>    `resource_group_id` VARCHAR(32),<br>    `resource_id`       VARCHAR(256),<br>    `branch_type`       VARCHAR(8),<br>    `status`            TINYINT,<br>    `client_id`         VARCHAR(64),<br>    `application_data`  VARCHAR(2000),<br>    `gmt_create`        DATETIME(6),<br>    `gmt_modified`      DATETIME(6),<br>    PRIMARY KEY (`branch_id`),<br>    KEY `idx_xid` (`xid`)<br>) ENGINE = InnoDB<br>  DEFAULT CHARSET = utf8mb4;<br><br>-- the table to store lock data<br>CREATE TABLE IF NOT EXISTS `lock_table`<br>(<br>    `row_key`        VARCHAR(128) NOT NULL,<br>    `xid`            VARCHAR(128),<br>    `transaction_id` BIGINT,<br>    `branch_id`      BIGINT       NOT NULL,<br>    `resource_id`    VARCHAR(256),<br>    `table_name`     VARCHAR(32),<br>    `pk`             VARCHAR(36),<br>    `status`         TINYINT      NOT NULL DEFAULT &#x27;0&#x27; COMMENT &#x27;0:locked ,1:rollbacking&#x27;,<br>    `gmt_create`     DATETIME,<br>    `gmt_modified`   DATETIME,<br>    PRIMARY KEY (`row_key`),<br>    KEY `idx_status` (`status`),<br>    KEY `idx_branch_id` (`branch_id`),<br>    KEY `idx_xid` (`xid`)<br>) ENGINE = InnoDB<br>  DEFAULT CHARSET = utf8mb4;<br><br>CREATE TABLE IF NOT EXISTS `distributed_lock`<br>(<br>    `lock_key`       CHAR(20) NOT NULL,<br>    `lock_value`     VARCHAR(20) NOT NULL,<br>    `expire`         BIGINT,<br>    primary key (`lock_key`)<br>) ENGINE = InnoDB<br>  DEFAULT CHARSET = utf8mb4;<br><br>INSERT INTO `distributed_lock` (lock_key, lock_value, expire) VALUES (&#x27;AsyncCommitting&#x27;, &#x27; &#x27;, 0);<br>INSERT INTO `distributed_lock` (lock_key, lock_value, expire) VALUES (&#x27;RetryCommitting&#x27;, &#x27; &#x27;, 0);<br>INSERT INTO `distributed_lock` (lock_key, lock_value, expire) VALUES (&#x27;RetryRollbacking&#x27;, &#x27; &#x27;, 0);<br>INSERT INTO `distributed_lock` (lock_key, lock_value, expire) VALUES (&#x27;TxTimeoutCheck&#x27;, &#x27; &#x27;, 0);<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>启动</p>
+<p>在seata目录下执行seata-server.sh 文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">bin/seata-server.sh <br></code></pre></td></tr></table></figure>
+
+<p>访问<a target="_blank" rel="noopener" href="http://localhost:7091/%EF%BC%8C%E5%87%BA%E7%8E%B0%E4%BB%A5%E4%B8%8B%E7%94%BB%E9%9D%A2%E4%BB%A3%E8%A1%A8%E6%88%90%E5%8A%9F%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E5%B0%B1%E6%98%AF%E5%9C%A8application.yml%E9%85%8D%E7%BD%AE%E7%9A%84console.user.username%E5%92%8Cconsole.user.password">http://localhost:7091/，出现以下画面代表成功账号密码就是在application.yml配置的console.user.username和console.user.password</a></p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202308282051746.png" srcset="/img/loading.gif" lazyload alt="image-20230828204423604"></p>
+<p>也可以在nacos页面中查看服务是否注册成功</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202308282051341.png" srcset="/img/loading.gif" lazyload alt="image-20230828205059592"></p>
+</li>
+</ul>
+<p>​	</p>
+<h3 id="微服务集成Seata"><a href="#微服务集成Seata" class="headerlink" title="微服务集成Seata"></a>微服务集成Seata</h3><ul>
+<li><p>引入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-seata<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.2.5.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">exclusions</span>&gt;</span><br>              <span class="hljs-tag">&lt;<span class="hljs-name">exclusion</span>&gt;</span><br>                  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.seata<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>seata-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>              <span class="hljs-tag">&lt;/<span class="hljs-name">exclusion</span>&gt;</span><br>          <span class="hljs-tag">&lt;/<span class="hljs-name">exclusions</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.seata<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>seata-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.7.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="XA"><a href="#XA" class="headerlink" title="XA"></a>XA</h4><h5 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h5><p>支持XA 事务的数据库。<br>Java 应用，通过 JDBC 访问数据库。</p>
+<h5 id="整体机制"><a href="#整体机制" class="headerlink" title="整体机制"></a>整体机制</h5><p>在 Seata 定义的分布式事务框架内，利用事务资源（数据库、消息服务等）对 XA 协议的支持，以 XA 协议的机制来管理分支事务的一种 事务模式。</p>
+<p>执行阶段：</p>
+<p>可回滚：业务 SQL 操作放在 XA 分支中进行，由资源对 XA 协议的支持来保证 可回滚<br>持久化：XA 分支完成后，执行 XA prepare，同样，由资源对 XA 协议的支持来保证 持久化（即，之后任何意外都不会造成无法回滚的情况）</p>
+<p>完成阶段：</p>
+<p>分支提交：执行 XA 分支的 commit<br>分支回滚：执行 XA 分支的 rollback</p>
+<ul>
+<li><p>配置application.yml 使用XA模式</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">seata:</span><br>  <span class="hljs-attr">data-source-proxy-mode:</span> <span class="hljs-string">XA</span><br>  <span class="hljs-attr">registry:</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">nacos</span><br>    <span class="hljs-attr">nacos:</span><br>      <span class="hljs-attr">application:</span> <span class="hljs-string">seata-server</span><br>      <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:8848</span><br>      <span class="hljs-attr">namespace:</span> <span class="hljs-string">&quot;&quot;</span><br>      <span class="hljs-attr">group:</span> <span class="hljs-string">DEFAULT_GROUP</span><br>      <span class="hljs-attr">username:</span> <span class="hljs-string">nacos</span><br>      <span class="hljs-attr">password:</span> <span class="hljs-string">nacos</span><br>  <span class="hljs-comment">#事务组的名称</span><br>  <span class="hljs-attr">tx-service-group:</span> <span class="hljs-string">seata-demo</span><br>  <span class="hljs-attr">service:</span><br>    <span class="hljs-comment">#事务组和cluster的映射关系</span><br>    <span class="hljs-attr">vgroup-mapping:</span><br>    <span class="hljs-comment">#你配置的seata/conf/application.yml的 cluster</span><br>      <span class="hljs-attr">seata-demo:</span> <span class="hljs-string">default</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Seata通过封装数据库的XA接口，实现了分布式事务处理的流程，降低了使用者的复杂度。用户只要在Seata客户端进行简单的开启XA模式的配置，即可成功使用Seata的XA模式。XA模式的性能也较差，只适用于一些对事务一致性要求非常高的场景。</p>
+<p>直接在service对用方法上添加注解@GlobalTransactional，即可生效</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202308311843476.png" srcset="/img/loading.gif" lazyload alt="image-20230831183911000"></p>
+<p>xa模式下的日志</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202308311843190.png" srcset="/img/loading.gif" lazyload alt="image-20230831182630307"></p>
+</li>
+</ul>
+<h4 id="AT"><a href="#AT" class="headerlink" title="AT"></a>AT</h4><h5 id="前提-1"><a href="#前提-1" class="headerlink" title="前提"></a>前提</h5><ul>
+<li>基于支持本地 ACID 事务的关系型数据库。</li>
+<li>Java 应用，通过 JDBC 访问数据库。</li>
+</ul>
+<h5 id="整体机制-1"><a href="#整体机制-1" class="headerlink" title="整体机制"></a>整体机制</h5><p>两阶段提交协议的演变：</p>
+<ul>
+<li>一阶段：业务数据和回滚日志记录在同一个本地事务中提交，释放本地锁和连接资源。</li>
+<li>二阶段：<ul>
+<li>提交异步化，非常快速地完成。</li>
+<li>回滚通过一阶段的回滚日志进行反向补偿。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>mysql数据新增undo_log表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE `undo_log` (<br>  `id` bigint(20) NOT NULL AUTO_INCREMENT,<br>  `branch_id` bigint(20) NOT NULL,<br>  `xid` varchar(100) NOT NULL,<br>  `context` varchar(128) NOT NULL,<br>  `rollback_info` longblob NOT NULL,<br>  `log_status` int(11) NOT NULL,<br>  `log_created` datetime NOT NULL,<br>  `log_modified` datetime NOT NULL,<br>  PRIMARY KEY (`id`),<br>  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)<br>) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>data-source-proxy-mode修改成AT模式</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">seata:</span><br>  <span class="hljs-attr">data-source-proxy-mode:</span> <span class="hljs-string">AT</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>AT下的日志</p>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/202309011026520.png" srcset="/img/loading.gif" lazyload alt="image-20230901101219676"></p>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/SpringCloud/" class="category-chain-item">SpringCloud</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>分布式事务-Seata简单实践</div>
+      <div>https://cason.work/2023/08/28/分布式事务-Seata简单实践/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cason Mo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年8月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/09/05/Elasticseatch%E7%AE%80%E5%8D%95%E5%AE%9E%E8%B7%B5/" title="Elasticseatch简单实践">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Elasticseatch简单实践</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/08/25/%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7%E9%99%90%E6%B5%81-Sentinel%E7%AE%80%E5%8D%95%E5%AE%9E%E8%B7%B5/" title="熔断降级限流-Sentinel简单实践">
+                        <span class="hidden-mobile">熔断降级限流-Sentinel简单实践</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"CasonMo/comment-utterances","repo-id":"R_kgDOHS6Rzw","category":"Announcements","category-id":"DIC_kwDOHS6Rz84Cegpi","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN","theme":"preferred_color_scheme"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022147183号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,830 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cason Mo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="我们在使用excel进行批量导入的时候，通常会提供导入模板excel来给用户来规范用户的输入，其中就会用到下拉选项来约束这一种方式   方法一：@Excel12@Excel(name &#x3D; &quot;状态&quot;, width &#x3D; 25, replace &#x3D; &amp;#123;&quot;待审_1&quot;, &quot;通过_2&quot;, &quot;驳回_3&quot;&amp;#125;,add">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Easypoi-导出excel单元格添加下拉列表">
+<meta property="og:url" content="https://cason.work/2023/12/08/Easypoi-%E5%AF%BC%E5%87%BAexcel%E5%8D%95%E5%85%83%E6%A0%BC%E6%B7%BB%E5%8A%A0%E4%B8%8B%E6%8B%89%E5%88%97%E8%A1%A8/index.html">
+<meta property="og:site_name" content="Blog|CasonMo-Java后端知识学习经验分享">
+<meta property="og:description" content="我们在使用excel进行批量导入的时候，通常会提供导入模板excel来给用户来规范用户的输入，其中就会用到下拉选项来约束这一种方式   方法一：@Excel12@Excel(name &#x3D; &quot;状态&quot;, width &#x3D; 25, replace &#x3D; &amp;#123;&quot;待审_1&quot;, &quot;通过_2&quot;, &quot;驳回_3&quot;&amp;#125;,add">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20231208165732976.png">
+<meta property="article:published_time" content="2023-12-08T08:09:38.000Z">
+<meta property="article:modified_time" content="2025-02-07T02:09:54.666Z">
+<meta property="article:author" content="Cason Mo">
+<meta property="article:tag" content="Easypoi">
+<meta property="article:tag" content="Excel">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20231208165732976.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+    <meta name="google-site-verification" content="f-Zx1s0QlBYDQAEQEaqHl-vpTbRmq-FDQ8IRLOTat6c" />
+  
+  <title>Easypoi-导出excel单元格添加下拉列表 - Blog|CasonMo-Java后端知识学习经验分享</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"cason.work","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mrkAghx9eMrolWwrYAdkz1JY-MdYXbMMI","app_key":"ySRiT9dGUKi9GsTq8uKjf4kc","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Blog|CasonMo-Java后端知识学习经验分享" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cason Mo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://tool.cason.work/" target="_self">
+                <i class="iconfont icon-briefcase"></i>
+                <span>开发工具集合</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span></span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Easypoi-导出excel单元格添加下拉列表"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-12-08 16:09" pubdate>
+          2023年12月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Easypoi-导出excel单元格添加下拉列表</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>我们在使用excel进行批量导入的时候，通常会提供导入模板excel来给用户来规范用户的输入，其中就会用到下拉选项来约束这一种方式</p>
+<img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20231208165732976.png" srcset="/img/loading.gif" lazyload alt="image-20231208165732976" style="zoom:50%;" />
+
+<h3 id="方法一：-Excel"><a href="#方法一：-Excel" class="headerlink" title="方法一：@Excel"></a>方法一：@Excel</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Excel(name = &quot;状态&quot;, width = 25, replace = &#123;&quot;待审_1&quot;, &quot;通过_2&quot;, &quot;驳回_3&quot;&#125;,addressList = true,orderNum = &quot;25&quot;)</span><br><span class="hljs-keyword">private</span> Integer status;<br></code></pre></td></tr></table></figure>
+
+<p>主要是replace和addressList这两个属性配置。</p>
+<p><code>replace</code>：替换字段内容，通常用于状态字段的显示（例如：”男_1,女_2”）。</p>
+<p><code>addressList</code>：是否生成下拉的选项。</p>
+<blockquote>
+<p><code>@Excel</code> 是 easypoi 中用于 Excel 导入导出的注解，可以用于实体类的字段上，用以定义该字段数据与 Excel 文件中的列的对应关系以及进行导入导出时的各种设置。以下是 <code>@Excel</code> 注解的一些主要属性和它们的功能：</p>
+<ol>
+<li><code>name</code>：设置导出时在表格中的显示名称。</li>
+<li><code>width</code>：列宽度，单位为字符。</li>
+<li><code>height</code>：行高度，单位为字符。</li>
+<li><code>orderNum</code>：导出排序顺序，数值小的先导出。</li>
+<li><code>needMerge</code>：是否需要合并单元格。</li>
+<li><code>mergeVertical</code>：纵向合并内容相同的单元格。</li>
+<li><code>mergeRely</code>：合并依赖于某些列的情况。</li>
+<li><code>replace</code>：替换字段内容，通常用于状态字段的显示（例如：”男_1,女_2”）。</li>
+<li><code>suffix</code>：文本后缀，如%、元、个。</li>
+<li><code>isImportField</code>：是否为导入字段，导入模板时是否需要显示。</li>
+<li><code>exportType</code>：导出类型，指导出文本还是导出图片等类型。</li>
+<li><code>format</code>：时间格式化，比如：”yyyy-MM-dd”。</li>
+<li><code>databaseFormat</code>：数据库格式，通常配合 <code>format</code> 使用。</li>
+<li><code>dict</code>：数据字典标识。</li>
+<li><code>savePath</code>：图片等文件保存路径。</li>
+<li><code>type</code>：字段类型（文本、图片、文件）。</li>
+<li><code>imageType</code>：图片类型，控制导出图片的方式。</li>
+<li><code>suffix</code>：文本类型的字段后缀标记。</li>
+<li><code>statistics</code>：是否统计当前列，生成统计行。</li>
+</ol>
+</blockquote>
+<h3 id="方法二：DataValidation"><a href="#方法二：DataValidation" class="headerlink" title="方法二：DataValidation"></a>方法二：DataValidation</h3><p>由于有的时候我们的下拉列表选项来自数据库，可以使用dict属性搭配IExcelDictHandler，也可以直接在workbook上操作，把列表约束作用到指定单元格</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">     * firstRow 开始行号 根据此项目，默认为2(下标0开始)</span><br><span class="hljs-comment">     * lastRow  根据此项目，默认为最大65535</span><br><span class="hljs-comment">     * firstCol 区域中第一个单元格的列号 (下标0开始)</span><br><span class="hljs-comment">     * lastCol 区域中最后一个单元格的列号</span><br><span class="hljs-comment">     * strings 下拉内容</span><br><span class="hljs-comment">     * */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addDropdown</span><span class="hljs-params">(Workbook workbook,<span class="hljs-type">int</span> firstRow, <span class="hljs-type">int</span> col, String[] strings )</span>&#123;<br>       <span class="hljs-comment">//对工作簿中第一个工作表进行操作</span><br>        <span class="hljs-type">Sheet</span> <span class="hljs-variable">sheet</span> <span class="hljs-operator">=</span> workbook.getSheetAt(<span class="hljs-number">0</span>);<br>       <span class="hljs-comment">// 创建`CellRangeAddressList`对象，该对象指定下拉列表的适用区域：</span><br>     	 <span class="hljs-comment">//该区域从`firstRow`起始行（包含）到第65535行（包含），在`col`列上。（由于我们作用于同一列，所以firstCol=lastCol）</span><br>        <span class="hljs-type">CellRangeAddressList</span> <span class="hljs-variable">cellRangeAddressList</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CellRangeAddressList</span>(firstRow, <span class="hljs-number">65535</span>, col,col);<br>        <span class="hljs-type">DataValidationHelper</span> <span class="hljs-variable">helper</span> <span class="hljs-operator">=</span> sheet.getDataValidationHelper();<br>       <span class="hljs-comment">//使用传入的字符串数组创建一个显式列表约束，确定下拉列表中的选项</span><br>        <span class="hljs-type">DataValidationConstraint</span> <span class="hljs-variable">dvConstraint</span> <span class="hljs-operator">=</span> helper.createExplicitListConstraint(strings);<br>       <span class="hljs-comment">//把创建的列表约束作用到那些范围内的单元格</span><br>        <span class="hljs-type">DataValidation</span> <span class="hljs-variable">validation</span> <span class="hljs-operator">=</span> helper.createValidation(dvConstraint, cellRangeAddressList);<br>       <span class="hljs-comment">//  作用到sheet上</span><br>        sheet.addValidationData(validation);<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>但是以上代码有个问题就是，如果下拉选项过多，会无法显示，这时候我们就需要借助一个隐藏的字典sheet，这时候我们就需要修改一下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addLongDropdown</span><span class="hljs-params">(Workbook workbook,<span class="hljs-type">int</span> firstRow, <span class="hljs-type">int</span> col, String[] strings )</span>&#123;<br>       <span class="hljs-type">XSSFSheet</span> <span class="hljs-variable">sheet</span> <span class="hljs-operator">=</span> (XSSFSheet)workbook.getSheetAt(<span class="hljs-number">0</span>);<br>       <span class="hljs-comment">//默认为最大65535</span><br>       <span class="hljs-type">int</span> <span class="hljs-variable">endRow</span> <span class="hljs-operator">=</span><span class="hljs-number">65535</span>;<br>       <span class="hljs-comment">//随便起个sheet名</span><br>       <span class="hljs-type">String</span> <span class="hljs-variable">hiddenName</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;hidden&quot;</span>+col;<br>       <span class="hljs-comment">//1.创建隐藏的sheet页。</span><br>       <span class="hljs-type">XSSFSheet</span> <span class="hljs-variable">hidden</span> <span class="hljs-operator">=</span> (XSSFSheet)workbook.createSheet(hiddenName);<br>       <span class="hljs-comment">//2.循环赋值（为了防止下拉框的行数与隐藏域的行数相对应，将隐藏域加到结束行之后）</span><br>       <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, length = strings.length; i &lt; length; i++) &#123;<br>           hidden.createRow(endRow + i).createCell(col).setCellValue(strings[i]);<br>       &#125;<br>       <span class="hljs-comment">//创建可被其他单元格引用的名称</span><br>       <span class="hljs-type">Name</span> <span class="hljs-variable">workbookName</span> <span class="hljs-operator">=</span> workbook.createName();<br>       workbookName.setNameName(hiddenName);<br>       <span class="hljs-comment">//3 A1:A代表隐藏域创建第N列createCell(N)时。以A1列开始A行数据获取下拉数组</span><br>       workbookName.setRefersToFormula(hiddenName + <span class="hljs-string">&quot;!A1:A&quot;</span> + (strings.length + endRow));<br>       <span class="hljs-type">DataValidationHelper</span> <span class="hljs-variable">helper</span> <span class="hljs-operator">=</span> sheet.getDataValidationHelper();<br>       <span class="hljs-type">DataValidationConstraint</span> <span class="hljs-variable">constraint</span> <span class="hljs-operator">=</span> helper.createFormulaListConstraint(hiddenName);<br>       <span class="hljs-type">CellRangeAddressList</span> <span class="hljs-variable">addressList</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CellRangeAddressList</span>(firstRow, endRow, col, col);<br>       <span class="hljs-type">DataValidation</span> <span class="hljs-variable">dataValidation</span> <span class="hljs-operator">=</span> helper.createValidation(constraint, addressList);<br>       <span class="hljs-keyword">if</span> (dataValidation <span class="hljs-keyword">instanceof</span> XSSFDataValidation) &#123;<br>           <span class="hljs-comment">// 数据校验</span><br>           dataValidation.setSuppressDropDownArrow(<span class="hljs-literal">true</span>);<br>           dataValidation.setShowErrorBox(<span class="hljs-literal">true</span>);<br>       &#125; <span class="hljs-keyword">else</span> &#123;<br>           dataValidation.setSuppressDropDownArrow(<span class="hljs-literal">false</span>);<br>       &#125;<br>       <span class="hljs-comment">// 作用在目标sheet上</span><br>       sheet.addValidationData(dataValidation);<br>       <span class="hljs-comment">// 为了用户友好，设置hiddenSheet隐藏</span><br>       workbook.setSheetHidden(workbook.getSheetIndex(hiddenName), <span class="hljs-literal">true</span>);<br>   &#125;<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Springboot/" class="category-chain-item">Springboot</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Easypoi/" class="print-no-link">#Easypoi</a>
+      
+        <a href="/tags/Excel/" class="print-no-link">#Excel</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Easypoi-导出excel单元格添加下拉列表</div>
+      <div>https://cason.work/2023/12/08/Easypoi-导出excel单元格添加下拉列表/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cason Mo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年12月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/12/08/Hexo-%E7%94%9F%E6%88%90%E7%AB%99%E7%82%B9%E5%9C%B0%E5%9B%BE%EF%BC%88sitemap%EF%BC%89/" title="Hexo-生成站点地图（sitemap）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hexo-生成站点地图（sitemap）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/27/Arthas-%E6%8E%92%E6%9F%A5cpu%E5%BC%82%E5%B8%B8%E8%BF%87%E9%AB%98%E7%9A%84%E9%97%AE%E9%A2%98/" title="Arthas:排查cpu异常过高的问题">
+                        <span class="hidden-mobile">Arthas:排查cpu异常过高的问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"CasonMo/comment-utterances","repo-id":"R_kgDOHS6Rzw","category":"Announcements","category-id":"DIC_kwDOHS6Rz84Cegpi","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN","theme":"preferred_color_scheme"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022147183号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

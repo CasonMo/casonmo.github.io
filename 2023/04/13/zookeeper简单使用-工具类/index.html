@@ -1,0 +1,830 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cason Mo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Zookeeper是一种分布式协调服务，旨在帮助构建可靠的分布式系统。它提供了一组原语，用于协调不同进程之间的通信和同步。Zookeeper可以用于各种分布式应用程序，例如分布式锁，配置管理，队列等。 Zookeeper的核心概念是znode，它是一种特殊的节点，类似于文件系统中的目录或文件。每个znode都有一个名称和一个关联的数据。Zookeeper维护了一个分层的znode命名空间，类似于文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zookeeper简单使用+工具类">
+<meta property="og:url" content="https://cason.work/2023/04/13/zookeeper%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8-%E5%B7%A5%E5%85%B7%E7%B1%BB/index.html">
+<meta property="og:site_name" content="Blog|CasonMo-Java后端知识学习经验分享">
+<meta property="og:description" content="Zookeeper是一种分布式协调服务，旨在帮助构建可靠的分布式系统。它提供了一组原语，用于协调不同进程之间的通信和同步。Zookeeper可以用于各种分布式应用程序，例如分布式锁，配置管理，队列等。 Zookeeper的核心概念是znode，它是一种特殊的节点，类似于文件系统中的目录或文件。每个znode都有一个名称和一个关联的数据。Zookeeper维护了一个分层的znode命名空间，类似于文">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-13T02:39:11.000Z">
+<meta property="article:modified_time" content="2025-02-07T02:09:54.673Z">
+<meta property="article:author" content="Cason Mo">
+<meta property="article:tag" content="zookeeper">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+    <meta name="google-site-verification" content="f-Zx1s0QlBYDQAEQEaqHl-vpTbRmq-FDQ8IRLOTat6c" />
+  
+  <title>zookeeper简单使用+工具类 - Blog|CasonMo-Java后端知识学习经验分享</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"cason.work","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mrkAghx9eMrolWwrYAdkz1JY-MdYXbMMI","app_key":"ySRiT9dGUKi9GsTq8uKjf4kc","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Blog|CasonMo-Java后端知识学习经验分享" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cason Mo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://tool.cason.work/" target="_self">
+                <i class="iconfont icon-briefcase"></i>
+                <span>开发工具集合</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss"></i>
+                <span></span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="zookeeper简单使用+工具类"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-13 10:39" pubdate>
+          2023年4月13日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">zookeeper简单使用+工具类</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Zookeeper是一种分布式协调服务，旨在帮助构建可靠的分布式系统。它提供了一组原语，用于协调不同进程之间的通信和同步。Zookeeper可以用于各种分布式应用程序，例如分布式锁，配置管理，队列等。</p>
+<p>Zookeeper的核心概念是znode，它是一种特殊的节点，类似于文件系统中的目录或文件。每个znode都有一个名称和一个关联的数据。Zookeeper维护了一个分层的znode命名空间，类似于文件系统中的目录树。通过创建，删除和更新znode，应用程序可以实现在不同进程之间共享状态的协调。</p>
+<p>Zookeeper还提供了一些特殊的znode，例如临时节点和顺序节点，用于实现分布式锁和队列等功能。</p>
+<p>Zookeeper使用一种称为“Zab”的协议来保持数据的一致性。Zab协议确保在分布式系统中的所有节点之间，只有一个节点是主节点，其余节点都是从节点。主节点负责处理所有写操作，然后将结果复制到所有从节点。这种方式可以保证系统在任何时候都具有一致的状态。</p>
+<p><strong>永久节点和临时节点</strong></p>
+<p>Zookeeper中，永久节点和临时节点的不同点在于它们的生命周期和用途。</p>
+<ol>
+<li>生命周期：</li>
+</ol>
+<ul>
+<li>永久节点：一旦创建，节点将一直存在直到被显式删除。即使客户端和Zookeeper Server之间的连接断开，节点也会一直存在于Zookeeper Server上。</li>
+<li>临时节点：当创建临时节点的客户端和Zookeeper Server短暂的失去连接时，节点会被自动删除。如果客户端与Zookeeper Server之间的连接恢复，则节点将重新出现在Zookeeper Server上。</li>
+</ul>
+<ol start="2">
+<li>用途：</li>
+</ol>
+<ul>
+<li>永久节点：用于存储永久性的数据，例如配置信息、元数据等。</li>
+<li>临时节点：用于表示在线客户端的状态，例如任务调度节点、任务执行状态、队列中的元素等。</li>
+</ul>
+<p>因此，开发人员在使用Zookeeper时需要根据实际需求选择永久节点或临时节点来存储数据。</p>
+<p><strong>有序节点和无序节点</strong></p>
+<p>Zookeeper中，有序节点和无序节点的不同点在于它们的节点名称和排序方式。</p>
+<ol>
+<li>节点名称：</li>
+</ol>
+<ul>
+<li>无序节点：节点名称由用户指定，Zookeeper会检查该名称是否已经存在，如果已存在则会报错。节点名称可以是任何字符串。</li>
+<li>有序节点：节点名称由Zookeeper自动分配，节点名称的格式为指定节点名称后跟着一个序号，例如：&#x2F;myapp&#x2F;node00001。在分配节点名称时，Zookeeper会根据节点编号的大小来排序节点。</li>
+</ul>
+<ol start="2">
+<li>排序方式：</li>
+</ol>
+<ul>
+<li>无序节点：节点无法进行排序，只能根据节点名称进行查找。</li>
+<li>有序节点：节点根据节点编号的大小进行排序，可以通过节点的编号来查找节点，而不是通过节点的名称。</li>
+</ul>
+<p>有序节点在实际应用中，常用于实现队列或者锁等功能，因为有序节点总是能够保证执行的先后顺序。而无序节点通常用于存储配置信息等，因为修改、删除等操作较频繁，使用有序节点会带来一定的复杂度。</p>
+<h3 id="Springboot集成"><a href="#Springboot集成" class="headerlink" title="Springboot集成"></a>Springboot集成</h3><p>Curator是一个Zookeeper客户端库，提供了一组简单易用的API，可以帮助开发者更容易地与Zookeeper进行交互。Curator也提供了一些实用的特性，例如重试机制、选举、分布式锁等，可以帮助开发者构建可靠的分布式应用程序。</p>
+<p>application.properties</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#地址和端口号</span><br><span class="hljs-attr">curator.zookeeper.address</span>=<span class="hljs-string">127.0.0.1:2181</span><br><span class="hljs-comment">#会话超时时间 单位ms</span><br><span class="hljs-attr">curator.zookeeper.session_timeout</span>=<span class="hljs-string">60000</span><br><span class="hljs-comment">#连接超时时间 单位ms</span><br><span class="hljs-attr">curator.zookeeper.connection_timeout</span>=<span class="hljs-string">15000</span><br><span class="hljs-comment">#默认为操作的根节点，为了实现不同的Zookeeper业务之间的隔离，所有操作都是基于该目录进行的</span><br><span class="hljs-attr">curator.zookeeper.name_space</span>=<span class="hljs-string">beixian</span><br><span class="hljs-comment">#重试间隔时间</span><br><span class="hljs-attr">curator.zookeeper.base_sleep_time_ms</span>=<span class="hljs-string">3000</span><br><span class="hljs-comment">#重试次数</span><br><span class="hljs-attr">curator.zookeeper.max_retries</span>=<span class="hljs-string">10</span><br></code></pre></td></tr></table></figure>
+
+<p>CuratorConfig.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CuratorConfig</span> &#123;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;curator.zookeeper.address&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String zkAddress;<br>    <span class="hljs-meta">@Value(&quot;$&#123;curator.zookeeper.session_timeout&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> sessionTimeout;<br>    <span class="hljs-meta">@Value(&quot;$&#123;curator.zookeeper.connection_timeout&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> connectionTimeout;<br>    <span class="hljs-meta">@Value(&quot;$&#123;curator.zookeeper.name_space&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String nameSpace;<br>    <span class="hljs-meta">@Value(&quot;$&#123;curator.zookeeper.base_sleep_time_ms&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> baseSleepTimeMs;<br>    <span class="hljs-meta">@Value(&quot;$&#123;curator.zookeeper.max_retries&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> maxRetries;<br><br>    <span class="hljs-meta">@Bean(initMethod = &quot;start&quot;, destroyMethod = &quot;close&quot;)</span><br>    <span class="hljs-keyword">public</span> CuratorFramework <span class="hljs-title function_">curatorFramework</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">RetryPolicy</span> <span class="hljs-variable">retryPolicy</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ExponentialBackoffRetry</span>(baseSleepTimeMs, maxRetries);<br>        <span class="hljs-keyword">return</span> CuratorFrameworkFactory.builder()<br>                .connectString(zkAddress)<br>                .sessionTimeoutMs(sessionTimeout)<br>                .connectionTimeoutMs(connectionTimeout)<br>                .retryPolicy(retryPolicy)<br>                .namespace(nameSpace)<br>                .build();<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h3><p>通过以下工具类实现对zookeeper节点的增删改查</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ZookeeperService</span> &#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> CuratorFramework client;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建永久Zookeeper节点</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodePath  节点路径（如果父节点不存在则会自动创建父节点），如：/curator</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodeValue 节点数据</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 返回创建成功的节点路径</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">createPersistentNode</span><span class="hljs-params">(String nodePath, String nodeValue)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">return</span> client.create().creatingParentsIfNeeded().forPath(nodePath, nodeValue.getBytes());<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;创建永久Zookeeper节点失败,nodePath:&#123;&#125;,nodeValue:&#123;&#125;&quot;</span>, nodePath, nodeValue, e);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建永久有序Zookeeper节点</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodePath  节点路径（如果父节点不存在则会自动创建父节点），如：/curator</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodeValue 节点数据</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 返回创建成功的节点路径</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">createSequentialPersistentNode</span><span class="hljs-params">(String nodePath, String nodeValue)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">return</span> client.create().creatingParentsIfNeeded()<br>                    .withMode(CreateMode.PERSISTENT_SEQUENTIAL)<br>                    .forPath(nodePath, nodeValue.getBytes());<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;创建永久有序Zookeeper节点失败,nodePath:&#123;&#125;,nodeValue:&#123;&#125;&quot;</span>, nodePath, nodeValue, e);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建临时Zookeeper节点</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodePath  节点路径（如果父节点不存在则会自动创建父节点），如：/curator</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodeValue 节点数据</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 返回创建成功的节点路径</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">createEphemeralNode</span><span class="hljs-params">(String nodePath, String nodeValue)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">return</span> client.create().creatingParentsIfNeeded()<br>                    .withMode(CreateMode.EPHEMERAL)<br>                    .forPath(nodePath, nodeValue.getBytes());<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;创建临时Zookeeper节点失败,nodePath:&#123;&#125;,nodeValue:&#123;&#125;&quot;</span>, nodePath, nodeValue, e);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建临时有序Zookeeper节点</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodePath  节点路径（如果父节点不存在则会自动创建父节点），如：/curator</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodeValue 节点数据</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 返回创建成功的节点路径</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@since</span> 1.0.0</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">createSequentialEphemeralNode</span><span class="hljs-params">(String nodePath, String nodeValue)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">return</span> client.create().creatingParentsIfNeeded()<br>                    .withMode(CreateMode.EPHEMERAL_SEQUENTIAL)<br>                    .forPath(nodePath, nodeValue.getBytes());<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;创建临时有序Zookeeper节点失败,nodePath:&#123;&#125;,nodeValue:&#123;&#125;&quot;</span>, nodePath, nodeValue, e);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 检查Zookeeper节点是否存在</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodePath 节点路径</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> boolean 如果存在则返回true</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">checkExists</span><span class="hljs-params">(String nodePath)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">Stat</span> <span class="hljs-variable">stat</span> <span class="hljs-operator">=</span> client.checkExists().forPath(nodePath);<br><br>            <span class="hljs-keyword">return</span> stat != <span class="hljs-literal">null</span>;<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;检查Zookeeper节点是否存在出现异常,nodePath:&#123;&#125;&quot;</span>, nodePath, e);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取某个Zookeeper节点的所有子节点</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodePath 节点路径</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 返回所有子节点的节点名</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> List&lt;String&gt; <span class="hljs-title function_">getChildren</span><span class="hljs-params">(String nodePath)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">return</span> client.getChildren().forPath(nodePath);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;获取某个Zookeeper节点的所有子节点出现异常,nodePath:&#123;&#125;&quot;</span>, nodePath, e);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取某个Zookeeper节点的数据</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodePath 节点路径</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 节点存储的数据</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getData</span><span class="hljs-params">(String nodePath)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(client.getData().forPath(nodePath));<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;获取某个Zookeeper节点的数据出现异常,nodePath:&#123;&#125;&quot;</span>, nodePath, e);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 设置某个Zookeeper节点的数据</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodePath 节点路径</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setData</span><span class="hljs-params">(String nodePath, String newNodeValue)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            client.setData().forPath(nodePath, newNodeValue.getBytes());<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;设置某个Zookeeper节点的数据出现异常,nodePath:&#123;&#125;&quot;</span>, nodePath, e);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 删除某个Zookeeper节点</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodePath 节点路径</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">delete</span><span class="hljs-params">(String nodePath)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            client.delete().guaranteed().forPath(nodePath);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;删除某个Zookeeper节点出现异常,nodePath:&#123;&#125;&quot;</span>, nodePath, e);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 级联删除某个Zookeeper节点及其子节点</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodePath 节点路径</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">deleteChildrenIfNeeded</span><span class="hljs-params">(String nodePath)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            client.delete().guaranteed().deletingChildrenIfNeeded().forPath(nodePath);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;级联删除某个Zookeeper节点及其子节点出现异常,nodePath:&#123;&#125;&quot;</span>, nodePath, e);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 监听节点变化</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> nodePath 节点路径</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">cacheListener</span><span class="hljs-params">(String nodePath, CuratorCacheListener listener)</span> &#123;<br>        <span class="hljs-comment">//1.创建curatorCache对象</span><br>        <span class="hljs-type">CuratorCache</span> <span class="hljs-variable">curatorCache</span> <span class="hljs-operator">=</span> CuratorCache.build(client, nodePath);<br>        <span class="hljs-comment">//2.注册监听器</span><br>        curatorCache.listenable().addListener(listener);<br>        <span class="hljs-comment">//3.开启监听：true加载缓冲数据</span><br>        curatorCache.start();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="监听改动"><a href="#监听改动" class="headerlink" title="监听改动"></a>监听改动</h3><p>要通过Curator来监听Zookeeper上的目录，可以使用Curator提供的CuratorCache类。CuratorCache类可以监听一个目录下的所有子节点，并且可以自动处理节点的新增、删除、更新等事件。下面是一个使用CuratorCache类监听Zookeeper上目录的示例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CuratorWatcher</span> &#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> CuratorFramework curatorFramework;<br><br><br>    <span class="hljs-meta">@PostConstruct</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">path</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;/&quot;</span>;<br>        <span class="hljs-type">CuratorCache</span> <span class="hljs-variable">curatorCache</span> <span class="hljs-operator">=</span> CuratorCache.build(curatorFramework, path);<br>        curatorCache.listenable().addListener((type, childData, childData1) -&gt; &#123;<br>            <span class="hljs-keyword">switch</span> (type) &#123;<br>                <span class="hljs-keyword">case</span> NODE_CHANGED:<br>                    log.info(<span class="hljs-string">&quot;节点数据修改&quot;</span>);<br>                    log.info(<span class="hljs-string">&quot;修改前的节点路径：&quot;</span> + childData.getPath());<br>                    log.info(<span class="hljs-string">&quot;修改前的节点数据：&quot;</span> + <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(childData.getData()));<br>                    log.info(<span class="hljs-string">&quot;修改后的节点路径：&quot;</span> + childData1.getPath());<br>                    log.info(<span class="hljs-string">&quot;修改后的节点数据：&quot;</span> + <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(childData1.getData()));<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">case</span> NODE_CREATED:<br>                    log.info(<span class="hljs-string">&quot;新增节点&quot;</span>);<br>                    log.info(<span class="hljs-string">&quot;新增节点的路径&quot;</span> + childData1.getPath());<br>                    log.info(<span class="hljs-string">&quot;新增节点的数据：&quot;</span> + <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(childData1.getData()));<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">case</span> NODE_DELETED:<br>                    log.info(<span class="hljs-string">&quot;删除节点&quot;</span>);<br>                    log.info(<span class="hljs-string">&quot;删除节点的路径&quot;</span> + childData.getPath());<br>                    log.info(<span class="hljs-string">&quot;删除节点的数据：&quot;</span> + <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(childData.getData()));<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">default</span>:<br>                    <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;);<br>        curatorCache.start();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="简单实现分布式锁"><a href="#简单实现分布式锁" class="headerlink" title="简单实现分布式锁"></a>简单实现分布式锁</h3><p>InterProcessMutex是Zookeeper中提供的一种分布式锁实现方式。它基于Zookeeper的有序节点的特性实现，通过在Zookeeper上创建一个有序节点来代表锁，并通过检查该节点的前一个节点是否存在来控制锁的获取和释放。</p>
+<p>InterProcessMutex的主要方法包括：</p>
+<ol>
+<li>acquire()：获取锁，如果锁处于可用状态，则获取锁，在锁被释放之前将一直阻塞。</li>
+<li>acquire(long time, TimeUnit unit)：尝试获取锁，最多阻塞指定的时间，如果成功获取锁则返回true，否则返回false。</li>
+<li>release()：释放锁，如果当前线程持有锁，则释放锁。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ZookeeperLockService</span> &#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> CuratorFramework client;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">lock</span><span class="hljs-params">(String path, <span class="hljs-type">long</span> timeMs)</span> &#123;<br>        <span class="hljs-type">InterProcessMutex</span> <span class="hljs-variable">lock</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InterProcessMutex</span>(client, path);<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">return</span> lock.acquire(timeMs, TimeUnit.MILLISECONDS);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(e.getMessage(), e);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">unlock</span><span class="hljs-params">(String path)</span> &#123;<br>        <span class="hljs-type">InterProcessMutex</span> <span class="hljs-variable">lock</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InterProcessMutex</span>(client, path);<br>        <span class="hljs-keyword">try</span> &#123;<br>            lock.release();<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(e.getMessage(), e);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/zookeeper/" class="print-no-link">#zookeeper</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>zookeeper简单使用+工具类</div>
+      <div>https://cason.work/2023/04/13/zookeeper简单使用-工具类/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cason Mo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/17/Mysql%E4%BA%8B%E5%8A%A1/" title="Mysql事务">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Mysql事务</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/10/Java-html%E8%BD%ACpdf-%E4%B8%94%E8%A7%A3%E5%86%B3%E4%B8%AD%E6%96%87%E4%B8%8D%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/" title="Java html转pdf 且解决中文不显示问题">
+                        <span class="hidden-mobile">Java html转pdf 且解决中文不显示问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"CasonMo/comment-utterances","repo-id":"R_kgDOHS6Rzw","category":"Announcements","category-id":"DIC_kwDOHS6Rz84Cegpi","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN","theme":"preferred_color_scheme"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022147183号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
