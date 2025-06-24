@@ -19,21 +19,23 @@
   <meta name="author" content="Cason Mo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="移动测量合作伙伴（MMP）的广告归因链路移动测量合作伙伴（Mobile Measurement Partner，简称MMP）是一类专门提供移动应用广告归因和分析服务的第三方平台。MMP的主要功能是帮助广告主和应用开发者跟踪和分析广告效果，确定用户的来源，从而优化广告投放策略，提高广告投放的投资回报率（ROI）。广告归因是MMP的核心功能之一，通过收集和分析用户的点击和安装数据，确定用户是通过哪个广">
+    <meta name="description" content="深度链接（DeepLink）深度链接是一种基于URI架构的技术协议，允许直接跳转到应用内的特定功能模块或内容页面（如微信扫码 weixin:&#x2F;&#x2F;dl&#x2F;scan），而不仅是简单唤起App。其核心价值在于解决两大痛点：  打破应用孤岛：实现跨应用的无缝跳转（如广告跳转电商商品页） 精准场景直达：避免用户手动查找路径（直接打开抖音特定视频）  技术实现方式 URL Scheme（基础方案）： 格式：[s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="移动测量合作伙伴（MMP）的广告归因链路">
-<meta property="og:url" content="https://cason.work/2024/05/30/%E7%A7%BB%E5%8A%A8%E6%B5%8B%E9%87%8F%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%EF%BC%88MMP%EF%BC%89%E7%9A%84%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E9%93%BE%E8%B7%AF/index.html">
+<meta property="og:title" content="对深度链接的简单理解">
+<meta property="og:url" content="https://cason.work/2024/06/24/%E5%AF%B9%E6%B7%B1%E5%BA%A6%E9%93%BE%E6%8E%A5%E7%9A%84%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/index.html">
 <meta property="og:site_name" content="Blog|CasonMo-Java后端知识学习经验分享">
-<meta property="og:description" content="移动测量合作伙伴（MMP）的广告归因链路移动测量合作伙伴（Mobile Measurement Partner，简称MMP）是一类专门提供移动应用广告归因和分析服务的第三方平台。MMP的主要功能是帮助广告主和应用开发者跟踪和分析广告效果，确定用户的来源，从而优化广告投放策略，提高广告投放的投资回报率（ROI）。广告归因是MMP的核心功能之一，通过收集和分析用户的点击和安装数据，确定用户是通过哪个广">
+<meta property="og:description" content="深度链接（DeepLink）深度链接是一种基于URI架构的技术协议，允许直接跳转到应用内的特定功能模块或内容页面（如微信扫码 weixin:&#x2F;&#x2F;dl&#x2F;scan），而不仅是简单唤起App。其核心价值在于解决两大痛点：  打破应用孤岛：实现跨应用的无缝跳转（如广告跳转电商商品页） 精准场景直达：避免用户手动查找路径（直接打开抖音特定视频）  技术实现方式 URL Scheme（基础方案）： 格式：[s">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240530145119242.png">
-<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240530145130921.png">
-<meta property="article:published_time" content="2024-05-30T07:02:22.000Z">
-<meta property="article:modified_time" content="2025-02-07T02:09:54.678Z">
+<meta property="og:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20250624175615323.png">
+<meta property="article:published_time" content="2024-06-24T09:54:30.000Z">
+<meta property="article:modified_time" content="2025-06-24T10:12:28.987Z">
 <meta property="article:author" content="Cason Mo">
 <meta property="article:tag" content="广告">
+<meta property="article:tag" content="深度链接">
+<meta property="article:tag" content="延迟深度链接">
+<meta property="article:tag" content="上下文深度链接">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240530145119242.png">
+<meta name="twitter:image" content="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20250624175615323.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -41,7 +43,7 @@
   
     <meta name="google-site-verification" content="f-Zx1s0QlBYDQAEQEaqHl-vpTbRmq-FDQ8IRLOTat6c" />
   
-  <title>移动测量合作伙伴（MMP）的广告归因链路 - Blog|CasonMo-Java后端知识学习经验分享</title>
+  <title>对深度链接的简单理解 - Blog|CasonMo-Java后端知识学习经验分享</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -245,7 +247,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="移动测量合作伙伴（MMP）的广告归因链路"></span>
+            <span id="subtitle" data-typed-text="对深度链接的简单理解"></span>
           
         </div>
 
@@ -256,8 +258,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-30 15:02" pubdate>
-          2024年5月30日 下午
+        <time datetime="2024-06-24 17:54" pubdate>
+          2024年6月24日 下午
         </time>
       </span>
     
@@ -269,7 +271,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          1.3k 字
+          692 字
         
       </span>
     
@@ -281,7 +283,7 @@
         
         
           <!-- compatible with older versions-->
-          11 分钟
+          6 分钟
         
       </span>
     
@@ -327,100 +329,72 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">移动测量合作伙伴（MMP）的广告归因链路</h1>
+            <h1 id="seo-header">对深度链接的简单理解</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="移动测量合作伙伴（MMP）的广告归因链路"><a href="#移动测量合作伙伴（MMP）的广告归因链路" class="headerlink" title="移动测量合作伙伴（MMP）的广告归因链路"></a>移动测量合作伙伴（MMP）的广告归因链路</h3><p>移动测量合作伙伴（Mobile Measurement Partner，简称MMP）是一类专门提供移动应用广告归因和分析服务的第三方平台。MMP的主要功能是帮助广告主和应用开发者跟踪和分析广告效果，确定用户的来源，从而优化广告投放策略，提高广告投放的投资回报率（ROI）。广告归因是MMP的核心功能之一，通过收集和分析用户的点击和安装数据，确定用户是通过哪个广告平台、广告活动甚至具体的广告创意下载并安装了应用。</p>
-<h4 id="无链接广告的归因链路"><a href="#无链接广告的归因链路" class="headerlink" title="无链接广告的归因链路"></a>无链接广告的归因链路</h4><p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240530145119242.png" srcset="/img/loading.gif" lazyload alt="image-20240530145119242"></p>
-<p>无链接广告通常指那些不包含深度链接或特定归因链接的广告。这类广告的归因依赖于设备标识符和时间窗口。以下是无链接广告的归因链路详细过程：</p>
+                <h3 id="深度链接（DeepLink）"><a href="#深度链接（DeepLink）" class="headerlink" title="深度链接（DeepLink）"></a>深度链接（DeepLink）</h3><p>深度链接是一种基于URI架构的技术协议，允许直接跳转到应用内的特定功能模块或内容页面（如微信扫码 <code>weixin://dl/scan</code>），而不仅是简单唤起App。其核心价值在于解决两大痛点：</p>
 <ol>
-<li><strong>广告展示与点击</strong>：<ul>
-<li>用户在广告平台（如Google、Facebook）上看到广告并点击。</li>
-<li>广告平台记录下点击事件，包括设备ID（如IDFA、GAID）和点击时间。</li>
-<li>为了能够进行准确的归因，广告平台（如Google、Facebook）在用户点击广告时，会将点击数据（如点击时间、设备ID等）发送到MMP。</li>
-</ul>
-</li>
-<li><strong>应用下载与安装</strong>：<ul>
-<li>用户被引导到应用商店，下载并安装应用。</li>
-</ul>
-</li>
-<li><strong>应用激活与MMP SDK的作用</strong>：<ul>
-<li>用户首次打开应用时，应用内集成的MMP SDK（如Adjust、AppsFlyer）会触发一次激活事件。</li>
-<li>SDK收集设备标识符、安装时间等信息，并发送到MMP服务器。</li>
-</ul>
-</li>
-<li><strong>广告归因处理</strong>：<ul>
-<li>MMP服务器将接收到的激活数据与之前从广告平台获取的点击数据进行匹配。</li>
-<li>通过时间窗口（通常为点击后的24至48小时）和设备标识符，MMP确定用户的安装行为与哪个点击事件相关联。</li>
-</ul>
-</li>
-<li><strong>归因报告</strong>：<ul>
-<li>MMP回传数据告知是通过哪个广告平台的广告安装了应用。</li>
-</ul>
-</li>
+<li><strong>打破应用孤岛</strong>：实现跨应用的无缝跳转（如广告跳转电商商品页）</li>
+<li><strong>精准场景直达</strong>：避免用户手动查找路径（直接打开抖音特定视频）</li>
 </ol>
-<p>这种归因方法依赖于设备标识符和时间窗口来推断用户行为，可能会因设备ID的变化或其他因素影响归因准确性。</p>
-<h4 id="有链接广告的归因链路"><a href="#有链接广告的归因链路" class="headerlink" title="有链接广告的归因链路"></a>有链接广告的归因链路</h4><p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20240530145130921.png" srcset="/img/loading.gif" lazyload alt="image-20240530145130921"></p>
-<p>有链接广告包含深度链接或特定的归因链接，例如Branch链接或AppsFlyer Onelink。这些链接能直接追踪用户的点击行为，使归因过程更为精确。以下是有链接广告的归因链路详细过程：</p>
+<h4 id="技术实现方式"><a href="#技术实现方式" class="headerlink" title="技术实现方式"></a>技术实现方式</h4><ul>
+<li>URL Scheme（基础方案）：<ul>
+<li>格式：<code>[scheme]://[host]/[path]?[query]</code></li>
+<li>缺点：无法处理未安装场景，多应用冲突时需用户手动选择</li>
+</ul>
+</li>
+<li>平台级方案：<ul>
+<li>Android App Links &#x2F; iOS Universal Links</li>
+<li>使用HTTP&#x2F;HTTPS链接（如 <code>https://app.com/product/123</code>）</li>
+<li>优势：未安装时自动跳转网页，安装后直通App内容</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="延迟深度链接（Deferred-Deeplink）"><a href="#延迟深度链接（Deferred-Deeplink）" class="headerlink" title="延迟深度链接（Deferred Deeplink）"></a>延迟深度链接（Deferred Deeplink）</h3><p>当用户点击链接时若未安装应用，传统深度链接会失效。<strong>延迟深度链接通过上下文还原技术，实现安装启动后自动跳转到原始目标页</strong>，典型流程如下：</p>
 <ol>
-<li><strong>广告展示与点击</strong>：<ul>
-<li>用户在广告平台上看到包含归因链接的广告（如Branch链接或AppsFlyer Onelink）。</li>
-<li>用户点击广告链接。</li>
-</ul>
-</li>
-<li><strong>链接重定向与归因信息收集</strong>：<ul>
-<li>点击广告链接后，用户会被重定向到归因平台的中间页面。</li>
-<li>中间页面收集用户点击信息，包括设备ID、点击时间、广告来源等。</li>
-</ul>
-</li>
-<li><strong>重定向到应用商店</strong>：<ul>
-<li>收集完必要信息后，用户被重定向到应用商店的应用下载页面。</li>
-</ul>
-</li>
-<li><strong>应用下载与安装</strong>：<ul>
-<li>用户下载并安装应用。</li>
-</ul>
-</li>
-<li><strong>应用激活与SDK的作用</strong>：<ul>
-<li>用户首次打开应用时，应用内集成的归因平台SDK（如Branch SDK、AppsFlyer SDK）会触发一次激活事件。</li>
-<li>SDK将设备标识符和安装时间等信息发送到归因平台服务器。</li>
-</ul>
-</li>
-<li><strong>归因匹配</strong>：<ul>
-<li>归因平台服务器将激活事件与之前收集的点击数据进行匹配。</li>
-<li>由于链接中包含了具体的归因信息，归因平台能够直接将用户安装归因到特定的广告点击。</li>
-</ul>
-</li>
-<li><strong>归因报告</strong>：<ul>
-<li>归因平台回调告知是通过哪个广告平台和具体的广告链接下载并安装了应用。</li>
-</ul>
-</li>
+<li>用户在广告H5页点击「立即购买」</li>
+<li>系统检测应用未安装 → 引导下载</li>
+<li>安装后首次启动时自动打开商品购买页</li>
 </ol>
-<p>有链接广告的归因方法由于使用了明确的点击信息和广告来源，归因过程更加直接和精确。</p>
-<h4 id="无链接广告与有链接广告的区别"><a href="#无链接广告与有链接广告的区别" class="headerlink" title="无链接广告与有链接广告的区别"></a>无链接广告与有链接广告的区别</h4><ol>
-<li><strong>归因信息收集</strong>：<ul>
-<li><strong>无链接广告</strong>：依赖于设备标识符和时间窗口进行归因，需要更多的匹配步骤。</li>
-<li><strong>有链接广告</strong>：通过深度链接或归因链接直接收集点击信息，归因过程更加直接和精确。</li>
-</ul>
-</li>
-<li><strong>中间页面重定向</strong>：<ul>
-<li><strong>无链接广告</strong>：用户点击广告后直接跳转到应用商店，归因信息通过后台匹配。</li>
-<li><strong>有链接广告</strong>：用户点击广告后首先重定向到归因平台的中间页面，收集归因信息后再跳转到应用商店。</li>
-</ul>
-</li>
-<li><strong>准确性</strong>：<ul>
-<li><strong>无链接广告</strong>：归因准确性可能受限于设备标识符的变化和点击后的时间窗口。</li>
-<li><strong>有链接广告</strong>：归因更准确，因为链接中包含了明确的点击信息和广告来源。</li>
-</ul>
-</li>
-<li><strong>归因速度</strong>：<ul>
-<li><strong>无链接广告</strong>：归因过程可能需要更多时间来匹配和确认。</li>
-<li><strong>有链接广告</strong>：归因过程更加迅速，因为点击信息在链接中已经明确。</li>
-</ul>
-</li>
+<p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20250624175615323.png" srcset="/img/loading.gif" lazyload alt="image-20250624175615323"></p>
+<h4 id="关键技术实现"><a href="#关键技术实现" class="headerlink" title="关键技术实现"></a>关键技术实现</h4><table>
+<thead>
+<tr>
+<th align="center">技术方案</th>
+<th align="center">实现原理</th>
+<th align="center">适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">剪贴板数据传递</td>
+<td align="center">下载时将参数加密存入剪贴板（点击下载的时候，将场景中的一些参数记录下，生成一条链接或者更为复杂得多口令码，启动的时候从剪贴板中读取参数）</td>
+<td align="center">安卓&#x2F;iOS通用</td>
+</tr>
+<tr>
+<td align="center">设备指纹匹配</td>
+<td align="center">记录设备ID&#x2F;IP，云端匹配用户行为（将当前网络的IP、系统、可以获取的ID信息记录下来，某个时间段可以匹配上的用户可以认为是同一个用户。）</td>
+<td align="center">广告投放场景</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>典型案例：小红书H5页→下载→启动后自动打开《10分钟早餐》笔记</p>
+</blockquote>
+<hr>
+<h3 id="上下文深度链接（Contextual-Deeplink）"><a href="#上下文深度链接（Contextual-Deeplink）" class="headerlink" title="上下文深度链接（Contextual Deeplink）"></a>上下文深度链接（Contextual Deeplink）</h3><p>在基础深度链接上增加<strong>环境参数传递能力</strong>，实现智能化场景适配：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-comment">// 示例：携程酒店深度链接携带用户偏好</span><br>ctrip:<span class="hljs-comment">//hotels/detail?id=12345&amp;</span><br>    checkin=<span class="hljs-number">2023</span>-<span class="hljs-number">06</span>-<span class="hljs-number">20</span><span class="hljs-meta">&amp;</span><br>    adult=<span class="hljs-number">2</span><span class="hljs-meta">&amp;</span><br>    children=<span class="hljs-number">1</span><span class="hljs-meta">&amp;</span><br>    utm_source=weibo_ad<br></code></pre></td></tr></table></figure>
+
+<h4 id="核心价值"><a href="#核心价值" class="headerlink" title="核心价值"></a>核心价值</h4><ol>
+<li><strong>动态内容加载</strong>：根据参数展示定制化页面（如不同促销活动）</li>
+<li><strong>用户行为跟踪</strong>：通过UTM参数追踪转化路径</li>
+<li><strong>跨平台一致性</strong>：保持网页与App体验无缝衔接</li>
+<li><strong>条件路由</strong>：根据设备类型&#x2F;地理位置自动分流</li>
 </ol>
+<blockquote>
+<p>实际应用：美团在不同城市广告中植入地理参数，实现「点击即打开本地优惠页」</p>
+</blockquote>
 
                 
               </div>
@@ -429,11 +403,38 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B9%BF%E5%91%8A/" class="category-chain-item">广告</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
         <a href="/tags/%E5%B9%BF%E5%91%8A/" class="print-no-link">#广告</a>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E9%93%BE%E6%8E%A5/" class="print-no-link">#深度链接</a>
+      
+        <a href="/tags/%E5%BB%B6%E8%BF%9F%E6%B7%B1%E5%BA%A6%E9%93%BE%E6%8E%A5/" class="print-no-link">#延迟深度链接</a>
+      
+        <a href="/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E6%B7%B1%E5%BA%A6%E9%93%BE%E6%8E%A5/" class="print-no-link">#上下文深度链接</a>
       
     </div>
   
@@ -445,8 +446,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>移动测量合作伙伴（MMP）的广告归因链路</div>
-      <div>https://cason.work/2024/05/30/移动测量合作伙伴（MMP）的广告归因链路/</div>
+      <div>对深度链接的简单理解</div>
+      <div>https://cason.work/2024/06/24/对深度链接的简单理解/</div>
     </div>
     <div class="license-meta">
       
@@ -458,7 +459,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年5月30日</div>
+          <div>2024年6月24日</div>
         </div>
       
       
@@ -490,9 +491,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/24/%E5%AF%B9%E6%B7%B1%E5%BA%A6%E9%93%BE%E6%8E%A5%E7%9A%84%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/" title="对深度链接的简单理解">
+                      <a href="/2024/07/01/Tunnelblick%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87Google-Authenticator-Token-%E8%B0%B7%E6%AD%8C%E9%AA%8C%E8%AF%81%E5%99%A8%E9%AA%8C%E8%AF%81%E7%A0%81/" title="Tunnelblick身份验证自动通过Google Authenticator Token(谷歌验证器验证码)">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">对深度链接的简单理解</span>
+                        <span class="hidden-mobile">Tunnelblick身份验证自动通过Google Authenticator Token(谷歌验证器验证码)</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -500,8 +501,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/04/29/Springboot-Redisson%E5%AE%9E%E7%8E%B0%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="Springboot-Redisson实现延迟消息队列">
-                        <span class="hidden-mobile">Springboot-Redisson实现延迟消息队列</span>
+                      <a href="/2024/05/30/%E7%A7%BB%E5%8A%A8%E6%B5%8B%E9%87%8F%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%EF%BC%88MMP%EF%BC%89%E7%9A%84%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E9%93%BE%E8%B7%AF/" title="移动测量合作伙伴（MMP）的广告归因链路">
+                        <span class="hidden-mobile">移动测量合作伙伴（MMP）的广告归因链路</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

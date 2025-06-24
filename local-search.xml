@@ -226,6 +226,37 @@
   
   
   <entry>
+    <title>对深度链接的简单理解</title>
+    <link href="/2024/06/24/%E5%AF%B9%E6%B7%B1%E5%BA%A6%E9%93%BE%E6%8E%A5%E7%9A%84%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/"/>
+    <url>/2024/06/24/%E5%AF%B9%E6%B7%B1%E5%BA%A6%E9%93%BE%E6%8E%A5%E7%9A%84%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/</url>
+    
+    <content type="html"><![CDATA[<h3 id="深度链接（DeepLink）"><a href="#深度链接（DeepLink）" class="headerlink" title="深度链接（DeepLink）"></a>深度链接（DeepLink）</h3><p>深度链接是一种基于URI架构的技术协议，允许直接跳转到应用内的特定功能模块或内容页面（如微信扫码 <code>weixin://dl/scan</code>），而不仅是简单唤起App。其核心价值在于解决两大痛点：</p><ol><li><strong>打破应用孤岛</strong>：实现跨应用的无缝跳转（如广告跳转电商商品页）</li><li><strong>精准场景直达</strong>：避免用户手动查找路径（直接打开抖音特定视频）</li></ol><h4 id="技术实现方式"><a href="#技术实现方式" class="headerlink" title="技术实现方式"></a>技术实现方式</h4><ul><li>URL Scheme（基础方案）：<ul><li>格式：<code>[scheme]://[host]/[path]?[query]</code></li><li>缺点：无法处理未安装场景，多应用冲突时需用户手动选择</li></ul></li><li>平台级方案：<ul><li>Android App Links &#x2F; iOS Universal Links</li><li>使用HTTP&#x2F;HTTPS链接（如 <code>https://app.com/product/123</code>）</li><li>优势：未安装时自动跳转网页，安装后直通App内容</li></ul></li></ul><hr><h3 id="延迟深度链接（Deferred-Deeplink）"><a href="#延迟深度链接（Deferred-Deeplink）" class="headerlink" title="延迟深度链接（Deferred Deeplink）"></a>延迟深度链接（Deferred Deeplink）</h3><p>当用户点击链接时若未安装应用，传统深度链接会失效。<strong>延迟深度链接通过上下文还原技术，实现安装启动后自动跳转到原始目标页</strong>，典型流程如下：</p><ol><li>用户在广告H5页点击「立即购买」</li><li>系统检测应用未安装 → 引导下载</li><li>安装后首次启动时自动打开商品购买页</li></ol><p><img src="https://picgo-1258041929.cos.ap-guangzhou.myqcloud.com/img/image-20250624175615323.png" alt="image-20250624175615323"></p><h4 id="关键技术实现"><a href="#关键技术实现" class="headerlink" title="关键技术实现"></a>关键技术实现</h4><table><thead><tr><th align="center">技术方案</th><th align="center">实现原理</th><th align="center">适用场景</th></tr></thead><tbody><tr><td align="center">剪贴板数据传递</td><td align="center">下载时将参数加密存入剪贴板（点击下载的时候，将场景中的一些参数记录下，生成一条链接或者更为复杂得多口令码，启动的时候从剪贴板中读取参数）</td><td align="center">安卓&#x2F;iOS通用</td></tr><tr><td align="center">设备指纹匹配</td><td align="center">记录设备ID&#x2F;IP，云端匹配用户行为（将当前网络的IP、系统、可以获取的ID信息记录下来，某个时间段可以匹配上的用户可以认为是同一个用户。）</td><td align="center">广告投放场景</td></tr></tbody></table><blockquote><p>典型案例：小红书H5页→下载→启动后自动打开《10分钟早餐》笔记</p></blockquote><hr><h3 id="上下文深度链接（Contextual-Deeplink）"><a href="#上下文深度链接（Contextual-Deeplink）" class="headerlink" title="上下文深度链接（Contextual Deeplink）"></a>上下文深度链接（Contextual Deeplink）</h3><p>在基础深度链接上增加<strong>环境参数传递能力</strong>，实现智能化场景适配：</p><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-comment">// 示例：携程酒店深度链接携带用户偏好</span><br>ctrip:<span class="hljs-comment">//hotels/detail?id=12345&amp;</span><br>    checkin=<span class="hljs-number">2023</span>-<span class="hljs-number">06</span>-<span class="hljs-number">20</span><span class="hljs-meta">&amp;</span><br>    adult=<span class="hljs-number">2</span><span class="hljs-meta">&amp;</span><br>    children=<span class="hljs-number">1</span><span class="hljs-meta">&amp;</span><br>    utm_source=weibo_ad<br></code></pre></td></tr></table></figure><h4 id="核心价值"><a href="#核心价值" class="headerlink" title="核心价值"></a>核心价值</h4><ol><li><strong>动态内容加载</strong>：根据参数展示定制化页面（如不同促销活动）</li><li><strong>用户行为跟踪</strong>：通过UTM参数追踪转化路径</li><li><strong>跨平台一致性</strong>：保持网页与App体验无缝衔接</li><li><strong>条件路由</strong>：根据设备类型&#x2F;地理位置自动分流</li></ol><blockquote><p>实际应用：美团在不同城市广告中植入地理参数，实现「点击即打开本地优惠页」</p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>广告</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>广告</tag>
+      
+      <tag>深度链接</tag>
+      
+      <tag>延迟深度链接</tag>
+      
+      <tag>上下文深度链接</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>移动测量合作伙伴（MMP）的广告归因链路</title>
     <link href="/2024/05/30/%E7%A7%BB%E5%8A%A8%E6%B5%8B%E9%87%8F%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%EF%BC%88MMP%EF%BC%89%E7%9A%84%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E9%93%BE%E8%B7%AF/"/>
     <url>/2024/05/30/%E7%A7%BB%E5%8A%A8%E6%B5%8B%E9%87%8F%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%EF%BC%88MMP%EF%BC%89%E7%9A%84%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E9%93%BE%E8%B7%AF/</url>
